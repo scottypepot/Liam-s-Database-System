@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Activity Log</title>
+</head>
+<body>
+    <h1>Activity</h1>
+    <a href="{% url 'add_activity' %}">Add</a>
+    <ul>
+        {% for activity in activities %}
+            <li>
+                <p><strong>{{ activity.user }}</strong> at {{ activity.timestamp }}</p>
+                <p>{{ activity.message }}</p>
+            </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
+    

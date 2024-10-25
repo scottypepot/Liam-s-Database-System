@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Add Activity</title>
+</head>
+<body>
+    <h1>Add Activity</h1>
+    <form method="POST">
+        {% csrf_token %}
+        <label for="user">User:</label>
+        <input type="text" name="user" id="user">
+        <label for="message">Message:</label>
+        <textarea name="message" id="message"></textarea>
+        <button type="submit">Add</button>
+    </form>
+</body>
+</html>
