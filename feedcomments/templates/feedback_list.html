@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feedback and Comment Page</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+<body>
+    <div class="container">
+        <div class="sidebar">
+            <div class="logo">
+                <img src="path/to/user/icon.png" alt="User Icon">
+                <p>Username</p>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="#">Dashboard</a></li>
+                    <li><a href="#">Activity Log</a></li>
+                    <li><a href="#">Feedback</a></li>
+                    <li><a href="#">Settings</a></li>
+                </ul>
+            </nav>
+        </div>
+        <div class="main-content">
+            <h1>FeedBacks</h1>
+            <a href="{% url 'add_feedback' %}" class="add-button">Add</a>
+            <div class="feedback-log">
+                {% for feedback in feedbacks %}
+                    <div class="feedback-item">
+                        <p><strong>{{ feedback.user }}</strong> <span class="timestamp">{{ feedback.timestamp }}</span></p>
+                        <p>{{ feedback.comment }}</p>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</body>
+</html>

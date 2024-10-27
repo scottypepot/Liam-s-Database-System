@@ -1,10 +1,10 @@
 from django.db import models
+from django.utils import timezone
 
-class Post(models.Model):
-    feedback = models.CharField(max_length=500)
-    comments = models.CharField(max_length=500)
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
+class Feedback(models.Model):
+    user = models.CharField(max_length=100)
+    comment = models.TextField()
+    timestamp = models.DateTimeField(default=timezone.now)
 
     def __str__(self):
-        return self.feedback
+        return f"{self.user} - {self.timestamp}"

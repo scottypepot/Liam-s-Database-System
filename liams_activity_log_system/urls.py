@@ -19,5 +19,6 @@ from django.urls import path,include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('activity_logs.urls'))
+    path('activity', include('activity_logs.urls')),
+    path('feedback/', include('feedcomments.urls')),
 ]
