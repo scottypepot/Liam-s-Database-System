@@ -1,0 +1,157 @@
+//login.html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Activity Log System</title>
+    <style>
+        body {
+            margin: 0;
+            display: flex;
+            justify-content: flex-end; /* Align white background to the right */
+            align-items: center;
+            height: 100vh;
+            background-color: #580801; /* Background color for the entire page */
+        }
+        .container {
+            width: 1100px; /* Adjusted width */
+            height: 750px;
+            background: white;
+            border-top-left-radius: 50px;
+            border-bottom-left-radius: 50px;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .maroon-section {
+            position: absolute;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            width: 400px; /* Adjust width as needed */
+            background-color: #580801;
+            border-top-left-radius: 50px;
+            border-bottom-left-radius: 50px;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start; /* Align content at the top */
+            align-items: center; /* Center content horizontally */
+            padding-top: 30px; /* Adjust for spacing */
+            color: #FBFF00;
+        }
+        .title {
+            font-size: 40px;
+            font-family: Saira, sans-serif;
+            font-weight: 700;
+            margin: 0;
+        }
+        .subtitle {
+            font-size: 22px;
+            font-family: Saira, sans-serif;
+            font-weight: 600;
+            margin: 5px 0 30px 0; /* Space between subtitle and top content */
+        }
+        .maroon-logo {
+            position: absolute;
+            left: 350px; /* Align at the edge between maroon and white */
+            top: 50%;
+            transform: translate(-50%, -50%);
+            width: 500px;
+            height: 490px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 10; /* Ensure the logo is on top */
+        }
+        .login-title {
+            color: black;
+            font-size: 40px;
+            font-family: Inter, sans-serif;
+            font-weight: 700;
+            text-align: center;
+            margin-top: 100px; /* Added margin for spacing */
+        }
+        .input-container {
+            width: 630px;
+            margin: 15px 0; /* Added margin for spacing */
+            border: 1px solid black;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+        }
+        .input-label {
+            flex: 1;
+            padding: 10px;
+            background: white;
+            color: #736C6C;
+            font-size: 16px;
+            font-family: Inter, sans-serif;
+            font-weight: 400;
+            text-align: center;
+        }
+        .input-field {
+            flex: 2; /* Allow input to take more space */
+            padding: 10px;
+            border: none;
+            font-size: 16px;
+            font-family: Inter, sans-serif;
+        }
+        .login-button {
+            width: 630px;
+            height: 57px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: #580801;
+            border-radius: 8px;
+            color: white;
+            font-size: 22px;
+            font-family: Inter, sans-serif;
+            font-weight: 700;
+            margin: 20px 0; /* Added margin for spacing */
+            cursor: pointer;
+        }
+        .register-redirect {
+            color: #580801;
+            font-size: 16px;
+            font-family: Inter, sans-serif;
+            font-weight: 600;
+            text-align: center;
+            margin-top: 10px; /* Added margin for spacing */
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    {% load static %}
+    <div class="maroon-section">
+        <div class="title">LIAMS</div>
+        <div class="subtitle">Activity Log System</div>
+    </div>
+    
+    <div class="maroon-logo">
+        <img src="{% static 'images/liams_logo.png' %}" alt="Logo" style="width: 100%; height: auto;">
+    </div>
+    
+    <div class="container">
+        <div class="login-title">Login</div>
+        <form method="POST" action="{% url 'login' %}">
+            {% csrf_token %}
+            <div class="input-container">
+                <div class="input-label">Username</div>
+                <input type="text" name="username" class="input-field" required>
+            </div>
+            <div class="input-container">
+                <div class="input-label">Password</div>
+                <input type="password" name="password" class="input-field" required>
+            </div>
+            <button type="submit" class="login-button">Login</button>
+        </form>
+        <a class="register-redirect" href="{% url 'register' %}">Don't have an account? Create one</a>
+    </div>
+</body>
+</html>
+

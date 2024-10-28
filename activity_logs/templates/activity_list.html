@@ -1,19 +1,47 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Activity Log</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
 </head>
 <body>
-    <h1>Activity</h1>
-    <a href="{% url 'add_activity' %}">Add</a>
-    <ul>
-        {% for activity in activities %}
-            <li>
-                <p><strong>{{ activity.user }}</strong> at {{ activity.timestamp }}</p>
-                <p>{{ activity.message }}</p>
-            </li>
-        {% endfor %}
-    </ul>
+    <div class="container">
+        <div class="sidebar">
+            <div class="logo">
+                <img src="path/to/user/icon.png" alt="User Icon">
+                <p>Username</p>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="#">Dashboard</a></li>
+                    <li><a href="#">Activity Log</a></li>
+                    <li><a href="#">Messages</a></li>
+                    <li><a href="#">Settings</a></li>
+                </ul>
+            </nav>
+        </div>
+        <div class="main-content">
+            <h1>Activity</h1>
+            <a href="{% url 'add_activity' %}" class="add-button">Add</a>
+            <div class="activity-log">
+                {% for activity in activities %}
+                    <div class="activity-item">
+                        <p><strong>{{ activity.user }}</strong> <span class="timestamp">{{ activity.timestamp }}</span></p>
+                        <p>{{ activity.message }}</p>
+                        <form action="{% url 'update_activity' activity.id %}" method="get" style="display: inline;">
+                            <button type="submit">Update</button>
+                        </form>
+                        <form action="{% url 'delete_activity' activity.id %}" method="post" style="display: inline;">
+                            {% csrf_token %}
+                            <button type="submit">Delete</button>
+                        </form>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
 </body>
 </html>
-    

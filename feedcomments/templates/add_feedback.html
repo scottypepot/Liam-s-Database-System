@@ -3,20 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Add Activity</title>
+    <title>Add Feedback</title>
     {% load static %}
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
 </head>
 <body>
     <div class="form-container">
-        <h1>Add Activity</h1>
+        <h1>Write something here...</h1>
         <form method="POST">
             {% csrf_token %}
             <label for="user">User:</label>
             <input type="text" name="user" id="user" required>
-            <label for="message">Message:</label>
-            <textarea name="message" id="message" required></textarea>
-            <button type="submit">Add</button>
+            <label for="comment">Comment:</label>
+            <textarea name="comment" id="comment" required></textarea>
+            <button type="submit">Post</button>
         </form>
     </div>
 </body>

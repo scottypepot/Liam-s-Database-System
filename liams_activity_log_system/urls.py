@@ -19,7 +19,13 @@ from django.urls import path,include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+<<<<<<< HEAD
     path('', include('activity_logs.urls')),
      path('leave/', include('leave.urls')),
     path('branch/', include('branch.urls'))
+=======
+    path('activity', include('activity_logs.urls')),
+    path('feedback/', include('feedcomments.urls')),
+    path('auth/', include('authentication.urls')),
+>>>>>>> 3a2c8651f0a18125e42fdef7b07b2b133c47f1c7
 ]
