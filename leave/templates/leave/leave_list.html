@@ -1,0 +1,15 @@
+{% for leave, num_days in leave_details %}
+    <div>
+        <img src="{{ leave.user.profile.picture.url }}" alt="Profile Picture">
+        <h3>{{ leave.user.first_name }} {{ leave.user.last_name }}</h3>
+        <p>Position: {{ leave.user.profile.position }}</p>
+        <h4>Request Details:</h4>
+        <p>Start Date: {{ leave.start_date }}</p>
+        <p>End Date: {{ leave.end_date }}</p>
+        <p>Number of Days: {{ num_days }}</p>  <!-- Use calculated num_days -->
+        <p>Leave Type: {{ leave.leave_type }}</p>
+        <p>Reason: {{ leave.reason }}</p>
+        <p>Status: {{ leave.status }}</p>
+    </div>
+{% endfor %}
+<a href="{% url 'apply_leave' %}">Apply Leave</a>

@@ -39,6 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'activity_logs',
     'feedcomments',
+    'leave',
+    'branch',
 ]
 
 MIDDLEWARE = [

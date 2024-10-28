@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Apply Leave Form</title>
+</head>
+<body>
+    <h1>Apply Leave Form</h1>
+    <form method="post">
+        {% csrf_token %}
+        
+        <div>
+            <label for="first_name">First Name</label>
+            {{ form.first_name }}
+        </div>
+        <div>
+            <label for="last_name">Last Name</label>
+            {{ form.last_name }}
+        </div>
+        
+        <div>
+            <label for="leave_type">Type of Leave</label>
+            {{ form.leave_type }}
+        </div>
+
+        <div>
+            <label for="start_date">Date of Leave (From)</label>
+            {{ form.start_date }}
+        </div>
+        <div>
+            <label for="end_date">Date of Leave (To)</label>
+            {{ form.end_date }}
+        </div>
+
+        <div>
+            <label for="reason">Reason</label>
+            {{ form.reason }}
+        </div>
+
+        <button type="submit">Submit Leave</button>
+    </form>
+</body>
+</html>
