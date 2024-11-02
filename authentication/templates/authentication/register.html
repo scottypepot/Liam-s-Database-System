@@ -98,7 +98,7 @@
             font-size: 16px;
             font-family: Inter, sans-serif;
         }
-        .create-account-button{
+        .create-account-button {
             width: 630px;
             height: 57px;
             display: flex;
@@ -132,13 +132,25 @@
     </div>
     
     <div class="maroon-logo">
-        <img src="{% static 'images/liams_logo.png' %}" alt="Logo" style="width: 100%; height: auto;">
+        <img src="{% static 'images/Liam.png' %}" alt="Logo" style="width: 100%; height: auto;">
     </div>
     
     <div class="container">
         <div class="create-account-title">Create an Account</div>
         <form method="POST" action="{% url 'register' %}">
             {% csrf_token %}
+            <div class="input-container">
+                <div class="input-label">Username</div>
+                <input type="text" name="username" class="input-field" required>
+            </div>
+            <div class="input-container">
+                <div class="input-label">Email</div>
+                <input type="email" name="email" class="input-field" required>
+            </div>
+            <div class="input-container">
+                <div class="input-label">Password</div>
+                <input type="password" name="password" class="input-field" required>
+            </div>
             <div class="input-container">
                 <div class="input-label">First Name</div>
                 <input type="text" name="first_name" class="input-field" required>
@@ -147,17 +159,9 @@
                 <div class="input-label">Last Name</div>
                 <input type="text" name="last_name" class="input-field" required>
             </div>
-            <div class="input-container">
-                <div class="input-label">Username</div>
-                <input type="text" name="username" class="input-field" required>
-            </div>
-            <div class="input-container">
-                <div class="input-label">Password</div>
-                <input type="password" name="password" class="input-field" required>
-            </div>
-            <button type="submit" class="create-account-button">Create Account</button>
+            <button type="submit" class="create-account-button">Register</button>
         </form>
-        <a class="login-redirect" href="{% url 'login' %}">Already have an account? Login</a>
+        <a class="login-redirect" href="{% url 'login' %}">Already have an account? Login here</a>
     </div>
 </body>
 </html>

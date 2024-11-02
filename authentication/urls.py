@@ -1,8 +1,9 @@
-# authentication/urls.py
 from django.urls import path
-from . import views
+from .views import login_view, register_view, forgot_password_view, dashboard_view
 
 urlpatterns = [
-    path('login/', views.login_view, name='login'),
-    path('register/', views.register_view, name='register'),
+    path('login/', login_view, name='login'),
+    path('register/', register_view, name='register'),
+    path('forgot-password/', forgot_password_view, name='forgot_password'),
+    path('dashboard/', dashboard_view, name='dashboard'),
 ]

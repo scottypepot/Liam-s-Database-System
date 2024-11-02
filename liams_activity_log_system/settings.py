@@ -39,12 +39,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'activity_logs',
     'feedcomments',
-<<<<<<< HEAD
+    'authentication',
     'leave',
     'branch',
-=======
-    'authentication',
->>>>>>> 3a2c8651f0a18125e42fdef7b07b2b133c47f1c7
 ]
 
 MIDDLEWARE = [

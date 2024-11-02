@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:400,600,700,800&display=swap">
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Inter', sans-serif;
+            background: #F8EEED;
+        }
+        .sidebar {
+            width: 280px;
+            height: 100vh;
+            background: #580801;
+            position: fixed;
+        }
+        .sidebar-item {
+            color: white;
+            font-size: 16px;
+            font-weight: 400;
+            padding: 15px 20px;
+            display: flex;
+            align-items: center;
+        }
+        .sidebar-item img {
+            margin-right: 10px;
+        }
+        .header {
+            margin-left: 300px;
+            padding: 20px;
+            background: white;
+            position: relative;
+        }
+        .user-info {
+            margin-left: 300px;
+            padding: 10px;
+            background: white;
+            border-radius: 9999px;
+            display: flex;
+            align-items: center;
+        }
+        .user-info img {
+            border-radius: 9999px;
+            width: 85px;
+            height: 84px;
+            margin-right: 10px;
+        }
+        .dashboard-title {
+            margin-left: 300px;
+            font-size: 48px;
+            font-weight: 800;
+            text-align: center;
+        }
+        .recent-logs-title {
+            margin-left: 300px;
+            font-size: 32px;
+            font-weight: 600;
+            text-align: center;
+            margin-top: 40px;
+        }
+        .recent-logs {
+            margin-left: 300px;
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            width: calc(100% - 300px);
+        }
+        .log-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+        }
+        .log-item img {
+            width: 72px;
+            height: 65px;
+            border-radius: 50%;
+        }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <div class="sidebar-item"><img src="https://via.placeholder.com/33x33" alt="Dashboard Icon">Dashboard</div>
+        <div class="sidebar-item"><img src="https://via.placeholder.com/33x33" alt="Activity Log Icon">Activity Log</div>
+        <div class="sidebar-item"><img src="https://via.placeholder.com/33x33" alt="Feedback Icon">Feedback and Comment</div>
+        <div class="sidebar-item"><img src="https://via.placeholder.com/33x33" alt="Leave Icon">Leave</div>
+        <div class="sidebar-item"><img src="https://via.placeholder.com/33x33" alt="Branch Icon">Branch</div>
+        <div class="sidebar-item"><img src="https://via.placeholder.com/33x33" alt="Logout Icon">Logout</div>
+    </div>
+
+    <div class="header">
+        <div class="user-info">
+            <img src="https://via.placeholder.com/85x84" alt="User Avatar">
+            <div>
+                <div>Nate John</div>
+                <div style="color: #686262; font-size: 13px;">natejohnbalaton@cit.edu</div>
+            </div>
+        </div>
+        <div class="dashboard-title">Dashboard</div>
+        <div class="recent-logs-title">Recent Logs</div>
+    </div>
+
+    <div class="recent-logs">
+        <div class="log-item">
+            <img src="https://via.placeholder.com/72x65" alt="User Avatar">
+            <div>
+                <strong>Beyonce Tankyu</strong><br>
+                <span>The stove broke, I contacted P. Diddy to fix it. He charged me $100 dollars for it.</span>
+            </div>
+            <span>10:08 A.M</span>
+        </div>
+        <div class="log-item">
+            <img src="https://via.placeholder.com/72x65" alt="User Avatar">
+            <div>
+                <strong>Yoonchae</strong><br>
+                <span>Touch by touch.</span>
+            </div>
+            <span>6:00 P.M</span>
+        </div>
+        <!-- Add more log items as needed -->
+    </div>
+</body>
+</html>
