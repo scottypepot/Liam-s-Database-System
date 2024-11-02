@@ -16,14 +16,19 @@
             height: 100vh;
             background: #580801;
             position: fixed;
+            padding-top: 20px;
         }
         .sidebar-item {
             color: white;
             font-size: 16px;
-            font-weight: 400;
+            font-weight: 600;
             padding: 15px 20px;
             display: flex;
             align-items: center;
+            transition: background 0.3s;
+        }
+        .sidebar-item:hover {
+            background: #6c0a0a;
         }
         .sidebar-item img {
             margin-right: 10px;
@@ -32,34 +37,31 @@
             margin-left: 300px;
             padding: 20px;
             background: white;
-            position: relative;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
         .user-info {
-            margin-left: 300px;
-            padding: 10px;
-            background: white;
-            border-radius: 9999px;
             display: flex;
             align-items: center;
+            margin-bottom: 20px;
         }
         .user-info img {
-            border-radius: 9999px;
+            border-radius: 50%;
             width: 85px;
             height: 84px;
             margin-right: 10px;
         }
         .dashboard-title {
-            margin-left: 300px;
-            font-size: 48px;
-            font-weight: 800;
+            font-size: 36px;
+            font-weight: 700;
             text-align: center;
+            margin-bottom: 20px;
         }
         .recent-logs-title {
-            margin-left: 300px;
-            font-size: 32px;
+            font-size: 24px;
             font-weight: 600;
             text-align: center;
-            margin-top: 40px;
+            margin-top: 20px;
+            margin-bottom: 10px;
         }
         .recent-logs {
             margin-left: 300px;
@@ -67,32 +69,57 @@
             border-radius: 15px;
             padding: 20px;
             width: calc(100% - 300px);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
         .log-item {
             display: flex;
+            align-items: center;
             justify-content: space-between;
             padding: 10px 0;
+            border-bottom: 1px solid #eee;
+        }
+        .log-item:last-child {
+            border-bottom: none;
         }
         .log-item img {
             width: 72px;
             height: 65px;
             border-radius: 50%;
+            margin-right: 10px;
+        }
+        .log-content {
+            flex: 1;
+        }
+        .log-content strong {
+            display: block;
+            font-size: 16px;
+            font-weight: 600;
+        }
+        .log-content span {
+            color: #686262;
+            font-size: 14px;
+        }
+        .log-time {
+            font-size: 12px;
+            color: #a0a0a0;
+            text-align: right;
         }
     </style>
 </head>
 <body>
+    {% load static %}
     <div class="sidebar">
-        <div class="sidebar-item"><img src="https://via.placeholder.com/33x33" alt="Dashboard Icon">Dashboard</div>
-        <div class="sidebar-item"><img src="https://via.placeholder.com/33x33" alt="Activity Log Icon">Activity Log</div>
-        <div class="sidebar-item"><img src="https://via.placeholder.com/33x33" alt="Feedback Icon">Feedback and Comment</div>
-        <div class="sidebar-item"><img src="https://via.placeholder.com/33x33" alt="Leave Icon">Leave</div>
-        <div class="sidebar-item"><img src="https://via.placeholder.com/33x33" alt="Branch Icon">Branch</div>
-        <div class="sidebar-item"><img src="https://via.placeholder.com/33x33" alt="Logout Icon">Logout</div>
+        <div class="sidebar-item"><img src="{% static 'images/dashboard-icon.png' %}" alt="Dashboard Icon">Dashboard</div>
+        <div class="sidebar-item"><img src="{% static 'images/activity-log-icon.png' %}" alt="Activity Log Icon">Activity Log</div>
+        <div class="sidebar-item"><img src="{% static 'images/feedback-icon.png' %}" alt="Feedback Icon">Feedback and Comment</div>
+        <div class="sidebar-item"><img src="{% static 'images/leave-icon.png' %}" alt="Leave Icon">Leave</div>
+        <div class="sidebar-item"><img src="{% static 'images/branch-icon.png' %}" alt="Branch Icon">Branch</div>
+        <div class="sidebar-item"><img src="{% static 'images/logout-icon.png' %}" alt="Logout Icon">Logout</div>
     </div>
 
     <div class="header">
         <div class="user-info">
-            <img src="https://via.placeholder.com/85x84" alt="User Avatar">
+            <img src="{% static 'images/nate.jpg' %}" alt="User Avatar">
             <div>
                 <div>Nate John</div>
                 <div style="color: #686262; font-size: 13px;">natejohnbalaton@cit.edu</div>
@@ -104,20 +131,20 @@
 
     <div class="recent-logs">
         <div class="log-item">
-            <img src="https://via.placeholder.com/72x65" alt="User Avatar">
-            <div>
-                <strong>Beyonce Tankyu</strong><br>
-                <span>The stove broke, I contacted P. Diddy to fix it. He charged me $100 dollars for it.</span>
+            <img src="{% static 'images/beyonce.jpg' %}" alt="User Avatar">
+            <div class="log-content">
+                <strong>Beyonce Tankyu</strong>
+                <span>The stove broke, I contacted P. Diddy to fix it. He charged me $100 for it.</span>
             </div>
-            <span>10:08 A.M</span>
+            <span class="log-time">10:08 A.M</span>
         </div>
         <div class="log-item">
-            <img src="https://via.placeholder.com/72x65" alt="User Avatar">
-            <div>
-                <strong>Yoonchae</strong><br>
+            <img src="{% static 'images/yoonchae.jpg' %}" alt="User Avatar">
+            <div class="log-content">
+                <strong>Yoonchae</strong>
                 <span>Touch by touch.</span>
             </div>
-            <span>6:00 P.M</span>
+            <span class="log-time">6:00 P.M</span>
         </div>
         <!-- Add more log items as needed -->
     </div>
