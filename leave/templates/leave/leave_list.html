@@ -157,7 +157,6 @@
 {% load static %}
 <body>
     <div class="container">
-        <!-- Sidebar -->
         <aside class="sidebar">
             <div class="brand">
                 <img src="{% static 'images/liams_logo.png' %}" alt="Brand Logo">
@@ -187,14 +186,13 @@
             </nav>
         </aside>
 
-        <!-- Main Content -->
+      
         <main class="main">
             <header class="header">
                 <h1>Leave Request List</h1>
                 <a href="{% url 'apply_leave' %}" class="btn">Apply Leave</a>
             </header>
             <section class="cards">
-                <!-- Card 1 -->
                 <div class="card">
                     <div class="card-header"></div>
                     <div class="card-content">
@@ -211,7 +209,6 @@
                         <p class="status pending">Pending</p>
                     </div>
                 </div>
-                <!-- Card 2 -->
                 <div class="card">
                     <div class="card-header"></div>
                     <div class="card-content">
@@ -228,7 +225,6 @@
                         <p class="status approved">Approved</p>
                     </div>
                 </div>
-                <!-- Card 3 -->
                 <div class="card">
                     <div class="card-header"></div>
                     <div class="card-content">
