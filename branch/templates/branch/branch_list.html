@@ -1,13 +1,196 @@
-<div>
-    <h3>Labangon Branch</h3>
-    <p>Location: 789 Labangon St, Cebu City</p>
-    <h4>Employees:</h4>
-    <ul>
-        <li>
-            <img src="path_to_profile_picture/alvin_gitgano.jpg" alt="Alvin Nate Gitgano" style="width:50px; height:50px; border-radius:50%;">
-            <strong>Employee:</strong> Alvin Nate Gitgano<br>
-            <strong>Age:</strong> 40<br>
-            <strong>Gender:</strong> Male
-        </li>
-    </ul>
-</div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:400,600,700,800&display=swap">
+    <title>Labangon Branch</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Inter', sans-serif;
+            background: white;
+        }
+        .container {
+            display: flex;
+        }
+        .sidebar {
+            width: 280px;
+            height: 100vh;
+            background: #580801;
+            padding: 20px 0;
+            position: fixed;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 10px;  
+        }
+
+        .brand h1 {
+            color: #FBFF00;  
+            font-size: 26px;
+        }
+
+        .menu {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;  
+            flex-grow: .6; 
+        }
+
+        .menu-item {
+            color: white;
+            font-size: 16px;
+            font-weight: 400;
+            padding: 23px;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .menu-item img {
+            margin-right: 15px;
+            width: 33px;
+            height: 33px;
+        }
+
+        .menu-item:hover {
+            background: #6c0a0a;
+        }
+
+        .main {
+            margin-left: 280px;
+            flex: 1;
+            padding: 20px;
+        }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+        .header h1 {
+            font-size: 40px;
+            font-weight: 400;
+        }
+       
+        .cards {
+            display: flex;
+            justify-content: space-between;
+            gap: 20px;
+        }
+        .card {
+            flex: 1;
+            background: #FCE3DF;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            min-width: 300px;
+        }
+        .card-header {
+            background: #FFBCB4;
+            height: 50px;
+            border-top-left-radius: 15px;
+            border-top-right-radius: 15px;
+        }
+        .card-content {
+            text-align: center;
+            margin-top: -15px;
+        }
+        .card-content img {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            margin-bottom: 15px;
+        }
+        .card-content h2 {
+            font-size: 22px;
+            font-weight: 700;
+            color: black;
+            margin-bottom: 5px;
+        }
+        .card-content p {
+            font-size: 14px;
+            color: #736C6C;
+            margin-bottom: 5px;
+        }
+        .card-content h3 {
+            font-size: 16px;
+            font-weight: 600;
+            margin: 10px 0 5px;
+        }
+        .status {
+            font-size: 16px;
+            font-weight: 700;
+        }
+        .status.pending {
+            color: #1100FF;
+        }
+        .status.declined {
+            color: #FF0000;
+        }
+        .status.approved {
+            color: #00FF00;
+        }
+    </style>
+</head>
+
+{% load static %}
+<body>
+    <div class="container">
+        <aside class="sidebar">
+            <div class="brand">
+                <img src="{% static 'images/liams_logo.png' %}" alt="Brand Logo">
+                <h1>Liams</h1>
+            </div>
+            <nav class="menu">
+                <a href="{% url 'dashboard' %}" class="menu-item">
+                    <img src="{% static 'images/dashboard.png' %}" alt="Dashboard Icon">
+                    Dashboard
+                </a>
+                <a href="{% url 'activity_list' %}" class="menu-item">
+                    <img src="{% static 'images/activity_log.png' %}" alt="Activity Log Icon">
+                    Activity Log
+                </a>
+                <a href="{% url 'feedback_list' %}" class="menu-item">
+                    <img src="{% static 'images/feedback_comment.png' %}" alt="Feedback Icon">
+                    Feedback and Comment
+                </a>
+                <a href="{% url 'leave_list' %}" class="menu-item">
+                    <img src="{% static 'images/leave.png' %}" alt="Leave Icon">
+                    Leave
+                </a>
+                <a href="{% url 'branch_list' %}" class="menu-item">
+                    <img src="{% static 'images/branch.png' %}" alt="Branch Icon">
+                    Branch
+                </a>
+            </nav>
+        </aside>
+
+        <main class="main">
+            <header class="header">
+                <h1>Labangon Branch</h1>
+            </header>
+            <section>
+                <h3>Labangon Branch</h3>
+                <p>Location: 789 Labangon St, Cebu City</p>
+                <h4>Employees:</h4>
+                <ul>
+                    <li>
+                        <img src="path_to_profile_picture/alvin_gitgano.jpg" alt="Alvin Nate Gitgano" style="width:50px; height:50px; border-radius:50%;">
+                        <strong>Employee:</strong> Alvin Nate Gitgano<br>
+                        <strong>Age:</strong> 40<br>
+                        <strong>Gender:</strong> Male
+                    </li>
+                </ul>
+            </section>
+        </main>
+    </div>
+</body>
+</html>
