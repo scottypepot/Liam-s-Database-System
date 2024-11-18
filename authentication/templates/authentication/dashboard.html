@@ -11,28 +11,60 @@
             font-family: 'Inter', sans-serif;
             background: #F8EEED;
         }
+        .container {
+            display: flex;
+        }
         .sidebar {
             width: 280px;
             height: 100vh;
             background: #580801;
+            padding: 20px 0;
             position: fixed;
-            padding-top: 20px;
+            display: flex;
+            flex-direction: column;
         }
-        .sidebar-item {
-            color: white;
-            font-size: 16px;
-            font-weight: 600;
-            padding: 15px 20px;
+
+        .brand {
             display: flex;
             align-items: center;
-            transition: background 0.3s;
+            justify-content: center;
+            margin-bottom: 10px;  
         }
-        .sidebar-item:hover {
+
+        .brand h1 {
+            color: #FBFF00;  
+            font-size: 26px;
+        }
+
+        .menu {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;  
+            flex-grow: .6; 
+        }
+
+        .menu-item {
+            color: white;
+            font-size: 16px;
+            font-weight: 400;
+            padding: 23px;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .menu-item img {
+            margin-right: 15px;
+            width: 33px;
+            height: 33px;
+        }
+
+        .menu-item:hover {
             background: #6c0a0a;
         }
-        .sidebar-item img {
-            margin-right: 10px;
-        }
+
         .header {
             margin-left: 300px;
             padding: 20px;
@@ -108,43 +140,65 @@
 </head>
 <body>
     {% load static %}
-    <div class="sidebar">
-        <div class="sidebar-item"><img src="{% static 'images/dashboard-icon.png' %}" alt="Dashboard Icon">Dashboard</div>
-        <div class="sidebar-item"><img src="{% static 'images/activity-log-icon.png' %}" alt="Activity Log Icon">Activity Log</div>
-        <div class="sidebar-item"><img src="{% static 'images/feedback-icon.png' %}" alt="Feedback Icon">Feedback and Comment</div>
-        <div class="sidebar-item"><img src="{% static 'images/leave-icon.png' %}" alt="Leave Icon">Leave</div>
-        <div class="sidebar-item"><img src="{% static 'images/branch-icon.png' %}" alt="Branch Icon">Branch</div>
-        <div class="sidebar-item"><img src="{% static 'images/logout-icon.png' %}" alt="Logout Icon">Logout</div>
-    </div>
+    <div class="container">
+        <aside class="sidebar">
+            <div class="brand">
+                <img src="{% static 'images/liams_logo.png' %}" alt="Brand Logo">
+                <h1>Liams</h1>
+            </div>
+            <nav class="menu">
+                <a href="{% url 'dashboard' %}" class="menu-item">
+                    <img src="{% static 'images/dashboard.png' %}" alt="Dashboard Icon">
+                    Dashboard
+                </a>
+                <a href="{% url 'activity_list' %}" class="menu-item">
+                    <img src="{% static 'images/activity_log.png' %}" alt="Activity Log Icon">
+                    Activity Log
+                </a>
+                <a href="{% url 'feedback_list' %}" class="menu-item">
+                    <img src="{% static 'images/feedback_comment.png' %}" alt="Feedback Icon">
+                    Feedback and Comment
+                </a>
+                <a href="{% url 'leave_list' %}" class="menu-item">
+                    <img src="{% static 'images/leave.png' %}" alt="Leave Icon">
+                    Leave
+                </a>
+                <a href="{% url 'branch_list' %}" class="menu-item">
+                    <img src="{% static 'images/branch.png' %}" alt="Branch Icon">
+                    Branch
+                </a>
+            </nav>
+        </aside>
 
-    <div class="header">
-        <div class="user-info">
-            <img src="{% static 'images/nate.jpg' %}" alt="User Avatar">
-            <div>
-                <div>Nate John</div>
-                <div style="color: #686262; font-size: 13px;">natejohnbalaton@cit.edu</div>
+        <div class="header">
+            <div class="user-info">
+                <img src="{% static 'images/nate.jpg' %}" alt="User Avatar">
+                <div>
+                    <div>Nate John</div>
+                    <div style="color: #686262; font-size: 13px;">natejohnbalaton@cit.edu</div>
+                </div>
             </div>
+            <div class="dashboard-title">Dashboard</div>
+            <div class="recent-logs-title">Recent Logs</div>
         </div>
-        <div class="dashboard-title">Dashboard</div>
-        <div class="recent-logs-title">Recent Logs</div>
-    </div>
 
-    <div class="recent-logs">
-        <div class="log-item">
-            <img src="{% static 'images/beyonce.jpg' %}" alt="User Avatar">
-            <div class="log-content">
-                <strong>Beyonce Tankyu</strong>
-                <span>The stove broke, I contacted P. Diddy to fix it. He charged me $100 for it.</span>
+        <div class="recent-logs">
+            <div class="log-item">
+                <img src="{% static 'images/beyonce.jpg' %}" alt="User Avatar">
+                <div class="log-content">
+                    <strong>Beyonce Tankyu</strong>
+                    <span>The stove broke, I contacted P. Diddy to fix it. He charged me $100 for it.</span>
+                </div>
+                <span class="log-time">10:08 A.M</span>
             </div>
-            <span class="log-time">10:08 A.M</span>
-        </div>
-        <div class="log-item">
-            <img src="{% static 'images/yoonchae.jpg' %}" alt="User Avatar">
-            <div class="log-content">
-                <strong>Yoonchae</strong>
-                <span>Touch by touch.</span>
+            <div class="log-item">
+                <img src="{% static 'images/yoonchae.jpg' %}" alt="User Avatar">
+                <div class="log-content">
+                    <strong>Yoonchae</strong>
+                    <span>Touch by touch.</span>
+                </div>
+                <span class="log-time">6:00 P.M</span>
             </div>
-            <span class="log-time">6:00 P.M</span>
         </div>
     </div>
 </body>
