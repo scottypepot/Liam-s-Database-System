@@ -74,4 +74,4 @@ def forgot_password_view(request):
 def dashboard_view(request):
     if not request.user.is_authenticated:
         return redirect('login')  # Redirect to login if user is not authenticated
-    return render(request, 'authentication/dashboard.html')  # Render dashboard template
+    return render(request, 'dashboard/dashboard.html')  # Render dashboard template

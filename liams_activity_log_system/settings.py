@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'authentication',
     'leave',
     'branch',
+    'dashboard',
 ]
 
 MIDDLEWARE = [

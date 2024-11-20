@@ -24,4 +24,5 @@ urlpatterns = [
     path('activity', include('activity_logs.urls')),
     path('feedback/', include('feedcomments.urls')),
     path('auth/', include('authentication.urls')),
+    path('dashboard/', include('dashboard.urls')),
 ]
