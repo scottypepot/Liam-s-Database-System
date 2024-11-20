@@ -1,15 +1,306 @@
-{% for leave, num_days in leave_details %}
-    <div>
-        <img src="{{ leave.user.profile.picture.url }}" alt="Profile Picture">
-        <h3>{{ leave.user.first_name }} {{ leave.user.last_name }}</h3>
-        <p>Position: {{ leave.user.profile.position }}</p>
-        <h4>Request Details:</h4>
-        <p>Start Date: {{ leave.start_date }}</p>
-        <p>End Date: {{ leave.end_date }}</p>
-        <p>Number of Days: {{ num_days }}</p>  <!-- Use calculated num_days -->
-        <p>Leave Type: {{ leave.leave_type }}</p>
-        <p>Reason: {{ leave.reason }}</p>
-        <p>Status: {{ leave.status }}</p>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Leave Request List</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:400,600,700,800&display=swap">
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Inter', sans-serif;
+            background: white;
+        }
+
+        .container {
+            display: flex;
+        }
+
+        /* Sidebar Styling */
+        .sidebar {
+            width: 280px;
+            height: 100vh;
+            background: #580801;
+            padding: 20px 0;
+            position: fixed;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 10px;
+        }
+
+        .brand h1 {
+            color: #FBFF00;
+            font-size: 26px;
+        }
+
+        .menu {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            flex-grow: 0.6;
+        }
+
+        .menu-item {
+            color: white;
+            font-size: 16px;
+            font-weight: 400;
+            padding: 23px;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .menu-item img {
+            margin-right: 15px;
+            width: 33px;
+            height: 33px;
+        }
+
+        .menu-item:hover {
+            background: #6c0a0a;
+        }
+
+        /* Main Content Styling */
+        .main {
+            margin-left: 280px;
+            flex: 1;
+            padding: 20px;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            font-size: 40px;
+            font-weight: 400;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            background: #FFBCB4;
+            color: #BB2517;
+            border: none;
+            border-radius: 10px;
+            font-size: 24px;
+            cursor: pointer;
+            text-decoration: none;
+            transition: background 0.3s ease;
+        }
+
+        .btn:hover {
+            background: #FCE3DF;
+        }
+
+        /* Card Styles */
+        .cards {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .card {
+            background: #FCE3DF;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            width: 360px; /* Fixed width for consistency */
+            position: relative;
+        }
+
+        .card-header {
+            background: #FFBCB4;
+            height: 50px;
+            border-top-left-radius: 15px;
+            border-top-right-radius: 15px;
+            position: relative;
+        }
+
+        .dropdown {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            cursor: pointer;
+        }
+
+        .dropdown-menu {
+            position: absolute;
+            top: 50px;
+            right: 10px;
+            background: white;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            display: none;
+            z-index: 10;
+        }
+
+        .dropdown-menu a {
+            display: block;
+            padding: 10px 20px;
+            text-decoration: none;
+            color: black;
+            font-size: 14px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .dropdown-menu a:last-child {
+            border-bottom: none;
+        }
+
+        .dropdown-menu a:hover {
+            background: #FFBCB4;
+            color: white;
+        }
+
+        .card-content {
+            text-align: center;
+            margin-top: -15px;
+        }
+
+        .card-content img {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            margin-bottom: 15px;
+        }
+
+        .card-content h2 {
+            font-size: 22px;
+            font-weight: 700;
+            color: black;
+            margin-bottom: 5px;
+        }
+
+        .card-content p {
+            font-size: 14px;
+            color: #736C6C;
+            margin-bottom: 5px;
+        }
+
+        .card-content h3 {
+            font-size: 16px;
+            font-weight: 600;
+            margin: 10px 0 5px;
+        }
+
+        .status {
+            font-size: 16px;
+            font-weight: 700;
+            margin-top: 10px;
+        }
+
+        .status.pending {
+            color: #1100FF;
+        }
+
+        .status.declined {
+            color: #FF0000;
+        }
+
+        .status.approved {
+            color: #00FF00;
+        }
+    </style>
+</head>
+
+{% load static %}
+<body>
+    <div class="container">
+        <aside class="sidebar">
+            <div class="brand">
+                <img src="{% static 'images/liams_logo.png' %}" alt="Brand Logo">
+                <h1>Liams</h1>
+            </div>
+            <nav class="menu">
+                <a href="{% url 'dashboard' %}" class="menu-item">
+                    <img src="{% static 'images/dashboard.png' %}" alt="Dashboard Icon">
+                    Dashboard
+                </a>
+                <a href="{% url 'activity_list' %}" class="menu-item">
+                    <img src="{% static 'images/activity_log.png' %}" alt="Activity Log Icon">
+                    Activity Log
+                </a>
+                <a href="{% url 'feedback_list' %}" class="menu-item">
+                    <img src="{% static 'images/feedback_comment.png' %}" alt="Feedback Icon">
+                    Feedback and Comment
+                </a>
+                <a href="{% url 'leave_list' %}" class="menu-item">
+                    <img src="{% static 'images/leave.png' %}" alt="Leave Icon">
+                    Leave
+                </a>
+                <a href="{% url 'branch_list' %}" class="menu-item">
+                    <img src="{% static 'images/branch.png' %}" alt="Branch Icon">
+                    Branch
+                </a>
+            </nav>
+        </aside>
+
+        <main class="main">
+            <header class="header">
+                <h1>Leave Request List</h1>
+                <a href="{% url 'apply_leave' %}" class="btn">Apply Leave</a>
+            </header>
+            <section class="cards">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="dropdown" onclick="toggleDropdown(this)">
+                            <img src="{% static 'images/more.png' %}" alt="Menu Icon">
+                        </div>
+                        <div class="dropdown-menu">
+                            <a href="#">Edit</a>
+                            <a href="#">Delete</a>
+                        </div>
+                    </div>
+                    <div class="card-content">
+                        <img src="{% static 'images/nate.jpg' %}" alt="Profile Picture">
+                        <h2>Nate</h2>
+                        <p><strong>Kitchen Manager</strong></p>
+                        <h3>Request Details</h3>
+                        <p><strong>Start Date:</strong> 2024-03-07</p>
+                        <p><strong>End Date:</strong> 2024-03-27</p>
+                        <p><strong>Number of Days:</strong> 21</p>
+                        <p><strong>Leave Type:</strong> Vacation</p>
+                        <p><strong>Reason:</strong> Jhovynn’s Wedding</p>
+                        <h3>Status</h3>
+                        <p class="status pending">Pending</p>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header"></div>
+                    <div class="card-content">
+                        <img src="{% static 'images/scott.jpg' %}" alt="Profile Picture">
+                        <h2>Scott</h2>
+                        <p><strong>Cashier</strong></p>
+                        <h3>Request Details</h3>
+                        <p><strong>Start Date:</strong> 2024-03-15</p>
+                        <p><strong>End Date:</strong> 2024-03-16</p>
+                        <p><strong>Number of Days:</strong> 2</p>
+                        <p><strong>Leave Type:</strong> Sick</p>
+                        <p><strong>Reason:</strong> Diarrhea</p>
+                        <h3>Status</h3>
+                        <p class="status approved">Approved</p>
+                    </div>
+                </div>
+            </section>
+        </main>
     </div>
-{% endfor %}
-<a href="{% url 'apply_leave' %}">Apply Leave</a>
+    <script>
+        function toggleDropdown(dropdown) {
+            const menu = dropdown.nextElementSibling;
+            menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
+        }
+    </script>
+</body>
+</html>
