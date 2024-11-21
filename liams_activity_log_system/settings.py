@@ -39,7 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'activity_logs',
     'feedcomments',
-    'authentication',
+    'authentication',  # Contains custom user model and login logic
     'leave',
     'branch',
     'dashboard',
@@ -60,7 +60,7 @@ ROOT_URLCONF = 'liams_activity_log_system.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [],  # Add paths to your template directories if needed
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -122,9 +122,20 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
 STATIC_URL = 'static/'
-STATICFILES_DIRS = [BASE_DIR / 'activity_logs/static', 'authentication/static']
+STATICFILES_DIRS = [
+    BASE_DIR / 'activity_logs/static', 
+    BASE_DIR / 'authentication/static',
+    BASE_DIR / 'dashboard/static'
+]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# Custom user model for authentication
+AUTH_USER_MODEL = 'authentication.UserProfile'  # Use the custom UserProfile model
+
+# Login redirection URLs
+LOGIN_REDIRECT_URL = '/dashboard/'  # Update this to the main page after login
+LOGOUT_REDIRECT_URL = '/login/'  # Redirect to login page after logout

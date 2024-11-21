@@ -1,8 +1,8 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login
-from django.contrib.auth.models import User
 from django.contrib import messages
 from django.contrib.auth import update_session_auth_hash
+from .models import UserProfile  # Import UserProfile
 
 def login_view(request):
     if request.method == 'POST':
@@ -28,12 +28,12 @@ def register_view(request):
         last_name = request.POST['last_name']
 
         # Check if the username already exists
-        if User.objects.filter(username=username).exists():
+        if UserProfile.objects.filter(username=username).exists():  # Use UserProfile here
             messages.error(request, "Username already taken. Please choose another.")
             return render(request, 'authentication/register.html')
 
-        # Create a new user account
-        user = User.objects.create_user(username=username, email=email, password=password)
+        # Create a new user account (using UserProfile)
+        user = UserProfile.objects.create_user(username=username, email=email, password=password)
         user.first_name = first_name
         user.last_name = last_name
         user.save()
@@ -43,7 +43,6 @@ def register_view(request):
 
     return render(request, 'authentication/register.html')
 
-
 def forgot_password_view(request):
     if request.method == 'POST':
         username = request.POST.get('username')
@@ -52,7 +51,7 @@ def forgot_password_view(request):
         confirm_new_password = request.POST.get('confirm_new_password')
 
         # Check if the user exists
-        user = User.objects.filter(username=username).first()
+        user = UserProfile.objects.filter(username=username).first()  # Use UserProfile here
         
         if user is None:
             messages.error(request, "User not found.")
