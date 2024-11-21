@@ -5,24 +5,43 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Feedback and Comment Page</title>
     {% load static %}
-    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
 <body>
+    {% load static %}
     <div class="container">
-        <div class="sidebar">
-            <div class="logo">
-                <img src="path/to/user/icon.png" alt="User Icon">
-                <p>Username</p>
+        <aside class="sidebar">
+            <div class="brand">
+                <img src="{% static 'images/liams_logo.png' %}" alt="Brand Logo">
+                <h1>Liams</h1>
             </div>
-            <nav>
-                <ul>
-                    <li><a href="#">Dashboard</a></li>
-                    <li><a href="#">Activity Log</a></li>
-                    <li><a href="#">Feedback</a></li>
-                    <li><a href="#">Settings</a></li>
-                </ul>
+            <nav class="menu">
+                <a href="{% url 'dashboard' %}" class="menu-item">
+                    <img src="{% static 'images/dashboard.png' %}" alt="Dashboard Icon">
+                    Dashboard
+                </a>
+                <a href="{% url 'activity_list' %}" class="menu-item">
+                    <img src="{% static 'images/activity_log.png' %}" alt="Activity Icon">
+                    Activity Log
+                </a>
+                <a href="{% url 'feedback_list' %}" class="menu-item">
+                    <img src="{% static 'images/feedback_comment.png' %}" alt="Feedback Icon">
+                    Feedback and Comment
+                </a>
+                <a href="{% url 'leave_list' %}" class="menu-item">
+                    <img src="{% static 'images/leave.png' %}" alt="Leave Icon">
+                    Leave
+                </a>
+                <a href="{% url 'branch_list' %}" class="menu-item">
+                    <img src="{% static 'images/branch.png' %}" alt="Branch Icon">
+                    Branch
+                </a>
             </nav>
-        </div>
+            <a href="{% url 'logout' %}" class="logout-btn-sidebar">
+                <img src="{% static 'images/logout.png' %}" alt="Logout Icon">
+                Logout
+            </a>
+        </aside>
         <div class="main-content">
             <h1>FeedBacks</h1>
             <a href="{% url 'add_feedback' %}" class="add-button">Add</a>

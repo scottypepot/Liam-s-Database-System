@@ -1,0 +1,240 @@
+body {
+    margin: 0;
+    font-family: 'Inter', sans-serif;
+    background: #FFFFFF; /* White background for the entire screen */
+    display: flex;
+    height: 100vh;
+}
+
+.container {
+    display: flex;
+    flex: 1;
+}
+.brand {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 10px;
+}
+
+.brand h1 {
+    color: #FBFF00;
+    font-size: 26px;
+}
+
+.sidebar {
+    width: 280px;
+    height: 100vh;
+    background: #580801; /* Sidebar color */
+    padding: 20px 0;
+    position: fixed;
+    display: flex;
+    flex-direction: column;
+}
+
+.menu {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    flex-grow: .6;
+}
+
+.menu-item {
+    color: white;
+    font-size: 16px;
+    font-weight: 400;
+    padding: 23px;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.menu-item img {
+    margin-right: 15px;
+    width: 33px;
+    height: 33px;
+}
+
+.menu-item:hover {
+    background: #6c0a0a;
+}
+
+.logout-btn-sidebar {
+    color: white;
+    font-size: 16px;
+    font-weight: 400;
+    padding: 50px 23px; /* Moved up slightly */
+    text-align: center;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    text-decoration: none;
+    margin-top: auto; /* Align at the bottom */
+}
+
+.logout-btn-sidebar:hover {
+    background: #6c0a0a;
+}
+
+.main-content {
+    margin-left: 280px; /* To make space for the fixed sidebar */
+    flex: 1;
+    overflow-y: auto; /* Allows scrolling in the main content */
+    padding: 20px;
+}
+.main-content h1 {
+    font-size: 24px;
+}
+
+.activity-log {
+    margin-top: 20px;
+}
+
+.activity-log .activity-item {
+    border-bottom: 1px solid #ddd;
+    padding: 15px 0;
+}
+
+.activity-log .activity-item:last-child {
+    border-bottom: none;
+}
+
+.activity-log .activity-item p {
+    margin: 5px 0;
+}
+
+.activity-log .timestamp {
+    color: #888;
+    font-size: 12px;
+}
+
+.add-button {
+    display: inline-block;
+    background-color: #ff4d4d;
+    color: white;
+    padding: 10px 20px;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: bold;
+}
+
+.add-button:hover {
+    background-color: #e63e3e;
+}
+
+.form-container {
+    max-width: 600px;
+    margin: auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.form-container h1 {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+.form-container label {
+    display: block;
+    margin-top: 10px;
+}
+
+.form-container input, .form-container textarea {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    border-radius: 3px;
+    border: 1px solid #ddd;
+}
+
+.form-container button {
+    background-color: #ff4d4d;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.form-container button:hover {
+    background-color: #e63e3e;
+}
+
+.feedback-log {
+    margin-top: 20px;
+}
+
+.feedback-item {
+    border-bottom: 1px solid #ddd;
+    padding: 15px 0;
+}
+
+.feedback-item p {
+    margin: 5px 0;
+}
+
+.timestamp {
+    color: #888;
+    font-size: 12px;
+}
+
+.add-header h1 {
+    font-size: 24px;
+    text-align: center;
+    color: #333333;
+    margin-bottom: 20px;
+}
+label {
+    font-size: 16px;
+    color: #333333;
+}
+
+input, textarea {
+    width: 100%;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #cccccc;
+    font-size: 14px;
+    box-sizing: border-box;
+}
+
+textarea {
+    resize: none;
+    height: 100px;
+}
+
+.form-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 10px;
+}
+
+.add-button, .cancel-button {
+    text-decoration: none;
+    background-color: #ff4d4d;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-size: 14px;
+    text-align: center;
+    border: none;
+    cursor: pointer;
+}
+
+.add-button:hover, .cancel-button:hover {
+    background-color: #e63e3e;
+}
+
+.cancel-button {
+    background-color: #dddddd;
+    color: #333333;
+}
+
+.cancel-button:hover {
+    background-color: #bbbbbb;
+}
