@@ -8,8 +8,8 @@
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
 <body>
-    {% load static %}
     <div class="container">
+        <!-- Sidebar -->
         <aside class="sidebar">
             <div class="brand">
                 <img src="{% static 'images/liams_logo.png' %}" alt="Brand Logo">
@@ -37,27 +37,56 @@
                     Branch
                 </a>
             </nav>
-            <a href="{% url 'logout' %}" class="logout-btn-sidebar">
-                <img src="{% static 'images/logout.png' %}" alt="Logout Icon">
-                Logout
-            </a>
+                <a href="{% url 'logout' %}" class="logout-btn-sidebar">
+                    <img src="{% static 'images/logout.png' %}" alt="Logout Icon">
+                   Logout
+                </a>
         </aside>
+
+        <!-- Main Content -->
         <div class="main-content">
-            <h1>Activity</h1>
-            <a href="{% url 'add_activity' %}" class="add-button">Add</a>
+            <div class="header">
+                <h1>Activity</h1>
+                <a href="{% url 'add_activity' %}" class="add-button">Add</a>
+            </div>
             <div class="activity-log">
+                <h2 class="section-title">Today</h2>
+                <div class="divider"></div>
                 {% for activity in activities %}
-                    <div class="activity-item">
-                        <p><strong>{{ activity.user }}</strong> <span class="timestamp">{{ activity.timestamp }}</span></p>
-                        <p>{{ activity.message }}</p>
-                        <form action="{% url 'update_activity' activity.id %}" method="get" style="display: inline;">
-                            <button type="submit">Update</button>
-                        </form>
-                        <form action="{% url 'delete_activity' activity.id %}" method="post" style="display: inline;">
-                            {% csrf_token %}
-                            <button type="submit">Delete</button>
-                        </form>
+                <div class="activity-item">
+                    <div class="activity-details">
+                        <img class="user-avatar" src="{{ activity.user_avatar_url }}" alt="User Avatar">
+                        <div class="activity-content">
+                            <p class="activity-user">
+                                <strong>{{ user.first_name }} {{ user.last_name }}</strong>
+                            </p>
+                            <p class="message">{{ activity.message }}</p>
+                        </div>
                     </div>
+                    <div class="activity-actions">
+                        <span class="timestamp">{{ activity.timestamp|date:"H:i A" }}</span>
+                        <div class="dropdown">
+                            <input type="checkbox" id="dropdown-{{ activity.id }}" class="dropdown-checkbox">
+                            <label for="dropdown-{{ activity.id }}" class="more-options">...</label>
+
+                            <div class="dropdown-menu">
+                                <ul>
+                                    <li>
+                                        <form action="{% url 'delete_activity' activity.id %}" method="post">
+                                            {% csrf_token %}
+                                            <button type="submit">Delete</button>
+                                        </form>
+                                    </li>
+                                    <li>
+                                        <form action="{% url 'update_activity' activity.id %}" method="get">
+                                            <button type="submit">Update</button>
+                                        </form>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>                
                 {% endfor %}
             </div>
         </div>
