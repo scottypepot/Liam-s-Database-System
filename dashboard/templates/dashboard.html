@@ -269,7 +269,9 @@ body {
             <div class="header">
                 <div class="dashboard-title">Dashboard</div>
                 <div class="profile-section">
-                    <img src="{% static 'images/user_icon.png' %}" alt="Profile Image">
+                    <a href="{% url 'edit_profile' %}">
+                        <img src="{% static 'images/user_icon.png' %}" alt="Profile Image">
+                    </a>
                     <div class="profile-info">
                         <div class="name">{{ user.first_name }} {{ user.last_name }}</div>
                         <div class="email">{{ user.email }}</div>

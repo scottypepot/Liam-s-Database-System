@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Profile</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:400,600,700,800&display=swap">
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Inter', sans-serif;
+            background: #F8EEED;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .edit-profile-container {
+            width: 400px;
+            background: white;
+            padding: 20px;
+            box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
+            border-radius: 12px;
+            position: relative;
+        }
+
+        .edit-profile-title {
+            font-size: 24px;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            font-size: 16px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+        }
+
+        .button-container {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .button-container button {
+            background: #580801;
+            color: white;
+            padding: 10px 20px;
+            font-size: 16px;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+        }
+
+        .button-container button:hover {
+            background: #6c0a0a;
+        }
+
+        .cancel-btn {
+            background: #ccc;
+        }
+
+        .cancel-btn:hover {
+            background: #999;
+        }
+
+        .profile-header {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .profile-header img {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            margin-right: 20px;
+        }
+
+        .profile-header div {
+            text-align: left;
+        }
+
+        .profile-header div h2 {
+            margin: 0;
+            font-size: 20px;
+            font-weight: 700;
+        }
+
+        .profile-header div p {
+            margin: 5px 0;
+            font-size: 14px;
+            color: #524E4E;
+        }
+
+        .profile-header div a {
+            font-size: 14px;
+            color: #580801;
+            text-decoration: none;
+        }
+
+        .profile-header div a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    {% load static %}
+    <div class="edit-profile-container">
+        <div class="edit-profile-title">Edit Profile</div>
+        <div class="profile-header">
+            <!-- Static profile image with user_icon.png -->
+            <img src="{% static 'images/user_icon.png' %}" alt="User Icon" class="user-icon">
+            <div>
+                <!-- Dynamically display full name -->
+                <h2>{{ user.first_name }} {{ user.last_name }}</h2>
+                <p>{{ user.role }}</p>  <!-- Assuming you want to show the role -->
+                <p>Joined: {{ user.date_joined|date:"F d, Y" }}</p>  <!-- Display date joined in a human-readable format -->
+                <!-- Removed "Change Profile Picture" link since profile picture is static -->
+            </div>
+        </div>
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="first_name">First Name</label>
+                <input type="text" name="first_name" id="first_name" value="{{ user.first_name }}" required>
+            </div>
+            <div class="form-group">
+                <label for="last_name">Last Name</label>
+                <input type="text" name="last_name" id="last_name" value="{{ user.last_name }}" required>
+            </div>
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" name="email" id="email" value="{{ user.email }}" required>
+            </div>
+            <div class="button-container">
+                <button type="submit">Save Changes</button>
+                <!-- Cancel button, redirects back to the dashboard -->
+                <a href="{% url 'dashboard' %}">
+                    <button type="button" class="cancel-btn">Cancel</button>
+                </a>
+            </div>
+        </form>
+    </div>
+</body>
+</html>

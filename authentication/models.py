@@ -1,10 +1,13 @@
-# models.py
+from django.contrib.auth.models import AbstractUser
 from django.db import models
 
-class UserProfile(models.Model):
-    username = models.CharField(max_length=150, unique=True)
-    email = models.EmailField()
-    created_at = models.DateTimeField(auto_now_add=True)
+class UserProfile(AbstractUser):  # Extending Django's built-in User model
+    ROLE_CHOICES = [
+        ('EMPLOYEE', 'Employee'),
+        ('ADMIN', 'Admin'),
+        ('SUPERADMIN', 'Superadmin'),
+    ]
+    role = models.CharField(max_length=20, choices=ROLE_CHOICES, default='EMPLOYEE')  # Add role field
 
     def __str__(self):
-        return self.username
+        return f"{self.username} ({self.role})"
