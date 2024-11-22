@@ -12,8 +12,7 @@
         <h1>Add Activity</h1>
         <form method="POST">
             {% csrf_token %}
-            <label for="user">User:</label>
-            <input type="text" name="user" id="user" required>
+            <label for="user">User: {{ user.first_name }} {{ user.last_name }}</label>
             <label for="message">Message:</label>
             <textarea name="message" id="message" required></textarea>
             <button type="submit">Add</button>

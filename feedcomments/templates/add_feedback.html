@@ -12,8 +12,7 @@
         <h1>Write something here...</h1>
         <form method="POST">
             {% csrf_token %}
-            <label for="user">User:</label>
-            <input type="text" name="user" id="user" required>
+            <label for="user">User: <strong>{{ user.first_name }} {{ user.last_name }}</strong></label>
             <label for="comment">Comment:</label>
             <textarea name="comment" id="comment" required></textarea>
             <button type="submit">Post</button>
