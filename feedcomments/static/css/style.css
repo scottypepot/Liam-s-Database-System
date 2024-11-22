@@ -1,4 +1,4 @@
-/* body {
+body {
     margin: 0;
     font-family: 'Inter', sans-serif;
     background: #FFFFFF;
@@ -229,4 +229,4 @@ max-width: 500px;
 
 .dropdown-menu li button:hover {
     background-color: #f0f0f0;
-} */
+}
