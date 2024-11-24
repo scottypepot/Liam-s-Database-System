@@ -1,7 +1,7 @@
-body {
+/* body {
     margin: 0;
     font-family: 'Inter', sans-serif;
-    background: #FFFFFF; /* White background for the entire screen */
+    background: #FFFFFF;
     display: flex;
     height: 100vh;
 }
@@ -12,7 +12,7 @@ body {
 .sidebar {
     width: 280px;
     height: 100vh;
-    background: #580801; /* Sidebar color */
+    background: #580801; 
     padding: 20px 0;
     position: fixed;
     display: flex;
@@ -64,13 +64,13 @@ body {
     color: white;
     font-size: 16px;
     font-weight: 400;
-    padding: 50px 23px; /* Moved up slightly */
+    padding: 50px 23px; 
     text-align: center;
     display: flex;
     align-items: center;
     cursor: pointer;
     text-decoration: none;
-    margin-top: auto; /* Align at the bottom */
+    margin-top: auto; 
 }
 
 .logout-btn-sidebar:hover {
@@ -153,11 +153,11 @@ body {
 
 .message {
     margin: 5px 0 0;
-    margin-left: 10px;  /* Adjusting left margin for proper alignment */
+    margin-left: 10px; 
     font-size: 18px;
     color: #555;
     word-wrap: break-word;
-    max-width: 550px;  /* Ensuring message content does not overflow */
+    max-width: 550px;  
 }
 
 .activity-actions {
@@ -191,12 +191,10 @@ body {
     position: relative;
 }
 
-/* Hide the checkbox input visually */
 .dropdown-checkbox {
     display: none;
 }
 
-/* Hide all dropdown menus by default */
 .dropdown-menu {
     display: none;
     position: absolute;
@@ -210,7 +208,6 @@ body {
     width: 150px;
 }
 
-/* Dropdown menu styling */
 .dropdown-menu ul {
     list-style: none;
     margin: 0;
@@ -257,7 +254,6 @@ body {
     margin-left: 10px;
 }
 
-/* Adjustments for 'Write something here...' message box */
 .activity-log > .activity-item:first-of-type {
     background-color: #FBFF00;
     border-radius: 10px;
@@ -271,4 +267,4 @@ body {
     background: #f0f0f0;
     border-radius: 10px;
     min-width: 300px;
-}
+} */
