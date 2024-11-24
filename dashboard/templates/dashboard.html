@@ -6,10 +6,10 @@
     <title>Dashboard</title>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:400,600,700,800&display=swap">
     <style>
-body {
+        body {
             margin: 0;
             font-family: 'Inter', sans-serif;
-            background: #FFFFFF; /* White background for the entire screen */
+            background: #FFFFFF;
             display: flex;
             height: 100vh;
         }
@@ -20,7 +20,7 @@ body {
         .sidebar {
             width: 280px;
             height: 100vh;
-            background: #580801; /* Sidebar color */
+            background: #580801;
             padding: 20px 0;
             position: fixed;
             display: flex;
@@ -72,13 +72,13 @@ body {
             color: white;
             font-size: 16px;
             font-weight: 400;
-            padding: 50px 23px; /* Moved up slightly */
+            padding: 50px 23px;
             text-align: center;
             display: flex;
             align-items: center;
             cursor: pointer;
             text-decoration: none;
-            margin-top: auto; /* Align at the bottom */
+            margin-top: auto;
         }
 
         .logout-btn-sidebar:hover {
@@ -86,9 +86,9 @@ body {
         }
 
         .main-content {
-            margin-left: 280px; /* To make space for the fixed sidebar */
+            margin-left: 280px;
             flex: 1;
-            overflow-y: auto; /* Allows scrolling in the main content */
+            overflow-y: auto;
             padding: 20px;
         }
 
@@ -103,7 +103,7 @@ body {
 
         .dashboard-title {
             font-size: 36px;
-            font-weight: 800; /* Extra bold */
+            font-weight: 800;
             color: black;
         }
 
@@ -115,8 +115,8 @@ body {
 
         .profile-section img {
             border-radius: 50%;
-            width: 60px; /* Adjusted profile icon size */
-            height: 60px; /* Adjusted profile icon size */
+            width: 60px;
+            height: 60px;
             margin-right: 10px;
         }
 
@@ -126,7 +126,7 @@ body {
         }
 
         .profile-info .name {
-            font-size: 18px; /* Adjusted text size */
+            font-size: 18px;
             font-weight: 700;
             color: black;
         }
@@ -138,34 +138,40 @@ body {
         }
 
         .recent-logs {
-            border-radius: 15px;
-            padding: 20px;
-            background: #fff; /* White background for recent logs */
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow for the logs container */
-            margin-top: 40px;
+            border-radius: 10px;
+            padding: 15px;
+            background: #fff;
+            box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
+            margin-top: 30px;
+            width: 95%;
+            margin-left: 20px;
+            margin-right: 20px;
         }
 
+        /* Updated title format for "Recent Logs" */
         .recent-logs-title {
-            text-align: left;
+            margin-top: 10px;
+            margin-left: 20px;
             color: black;
-            font-size: 22px; /* Adjusted font size for recent logs title */
-            font-family: 'Inter';
-            font-weight: 600; /* Semi bold */
+            font-size: 28px;
+            font-family: 'Inter', sans-serif;
+            font-weight: 600;
+            word-wrap: break-word;
             margin-bottom: 20px;
         }
 
         .recent-logs-section {
-            padding: 10px 0;
+            padding: 0;
         }
 
         .log-item {
             display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 10px 0;
-            border-bottom: 1px solid #eee;
-            background-color: #ffffff; /* White background */
-            border-radius: 10px; /* Rounded corners */
+            align-items: flex-start; /* Align content vertically to the top */
+            padding: 12px 15px;
+            border-bottom: 1px solid #f0f0f0;
+            background-color: #ffffff;
+            border-radius: 8px;
+            margin-bottom: 15px;
         }
 
         .log-item:last-child {
@@ -173,36 +179,54 @@ body {
         }
 
         .log-item img {
-            width: 72px;
-            height: 65px;
+            width: 50px;
+            height: 50px;
             border-radius: 50%;
-            margin-right: 10px;
+            margin-right: 15px;
         }
 
         .log-content {
-            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start; /* Align content to the start */
+            width: 100%;
         }
 
-        .log-content strong {
-            display: block;
+        .log-content .name-time {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             font-size: 16px;
             font-weight: 600;
+            color: #333;
         }
 
-        .log-content span {
-            color: #686262;
-            font-size: 14px;
-        }
-
-        .log-message {
+        .log-content .log-message {
             color: #4f4f4f;
             font-size: 14px;
+            margin-top: 5px;
+            margin-left: 30px;
+            line-height: 1.5;
+            margin-bottom: 10px;
         }
 
-        .log-time {
+        .log-content .log-time {
             font-size: 12px;
-            color: #a0a0a0;
+            color: #b0b0b0;
+            margin-top: 5px; /* Space between message and time */
+        }
+
+        .log-item .name-time .name {
+            font-size: 16px;
+            font-weight: 700;
+            color: #333;
+        }
+
+        .log-item .name-time .log-time {
+            font-size: 12px;
+            color: #6c0a0a;
             text-align: right;
+            white-space: nowrap;
         }
 
         .logout-btn {
@@ -222,9 +246,9 @@ body {
         }
 
         .greeting {
-            color: #4f4f4f; /* Slightly dark gray */
+            color: #4f4f4f;
             font-size: 18px;
-            margin-top: 50px; /* Added margin-top to move the greeting down */
+            margin-top: 50px;
             margin-left: 20px;
         }
     </style>
@@ -279,24 +303,33 @@ body {
                 </div>
             </div>
 
-            <div class="greeting">Welcome back, {{ user.first_name }}!</div> <!-- Adjusted greeting position -->
+            <div class="greeting">Welcome back, {{ user.first_name }}!</div>
 
             <div class="recent-logs">
+                <!-- Styled Recent Logs title -->
                 <div class="recent-logs-title">Recent Logs</div>
+
                 <div class="recent-logs-section">
                     {% for log in recent_logs|slice:":4" %}
                         <div class="log-item">
-                            <img src="{{ log.user.profile_picture.url }}" alt="User Image">
+                            <!-- User Icon on the Left -->
+                            <img src="{% static 'images/user_icon.png' %}" alt="User Icon">
+
                             <div class="log-content">
-                                <strong>{{ log.activity_name }}</strong>
-                                <span>{{ log.date }}</span>
-                                <div class="log-message">{{ log.message }}</div> <!-- Display the log message -->
+                                <!-- Name and Timestamp -->
+                                <div class="name-time">
+                                    <div class="name">{{ user.first_name }} {{ user.last_name }}</div>
+                                    <div class="log-time">{{ log.timestamp }}</div>
+                                </div>
+
+                                <!-- Activity Message -->
+                                <div class="log-message">{{ log.activity_name }}</div>
+                                <div class="log-message">{{ log.message }}</div>
                             </div>
-                            <div class="log-time">{{ log.timestamp }}</div>
                         </div>
                     {% endfor %}
                 </div>
-            </div>            
+            </div>
         </main>
     </div>
 </body>

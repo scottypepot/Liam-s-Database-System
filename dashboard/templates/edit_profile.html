@@ -9,7 +9,7 @@
         body {
             margin: 0;
             font-family: 'Inter', sans-serif;
-            background: #F8EEED;
+            background: #F5F3F3;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -17,54 +17,62 @@
         }
 
         .edit-profile-container {
-            width: 400px;
+            width: 450px;
             background: white;
-            padding: 20px;
-            box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
-            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0px 4px 25px rgba(0, 0, 0, 0.1);
+            border-radius: 15px;
             position: relative;
+            overflow: hidden;
         }
 
         .edit-profile-title {
-            font-size: 24px;
+            font-size: 28px;
             font-weight: 700;
             color: #333;
-            margin-bottom: 20px;
+            margin-bottom: 30px;
             text-align: center;
+            text-transform: uppercase;
         }
 
         .form-group {
-            margin-bottom: 15px;
+            margin-bottom: 20px;
         }
 
         .form-group label {
             font-size: 16px;
             font-weight: 600;
             color: #333;
+            margin-bottom: 8px;
         }
 
         .form-group input,
         .form-group textarea {
             width: 100%;
-            padding: 10px;
-            margin-top: 5px;
-            border-radius: 5px;
+            padding: 12px;
+            border-radius: 8px;
             border: 1px solid #ddd;
+            box-sizing: border-box;
+            font-size: 16px;
         }
 
         .button-container {
             display: flex;
             justify-content: space-between;
+            margin-top: 30px;
         }
 
         .button-container button {
             background: #580801;
             color: white;
-            padding: 10px 20px;
+            padding: 12px 30px;
             font-size: 16px;
-            border-radius: 5px;
+            font-weight: 500;
+            border-radius: 8px;
             border: none;
             cursor: pointer;
+            text-align: center;
+            transition: background 0.3s ease;
         }
 
         .button-container button:hover {
@@ -83,7 +91,9 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            margin-bottom: 20px;
+            margin-bottom: 30px;
+            border-bottom: 2px solid #f0f0f0;
+            padding-bottom: 20px;
         }
 
         .profile-header img {
@@ -91,6 +101,7 @@
             height: 120px;
             border-radius: 50%;
             margin-right: 20px;
+            border: 3px solid #ddd;
         }
 
         .profile-header div {
@@ -99,8 +110,9 @@
 
         .profile-header div h2 {
             margin: 0;
-            font-size: 20px;
+            font-size: 22px;
             font-weight: 700;
+            color: #333;
         }
 
         .profile-header div p {
@@ -118,6 +130,7 @@
         .profile-header div a:hover {
             text-decoration: underline;
         }
+
     </style>
 </head>
 <body>
@@ -125,14 +138,11 @@
     <div class="edit-profile-container">
         <div class="edit-profile-title">Edit Profile</div>
         <div class="profile-header">
-            <!-- Static profile image with user_icon.png -->
             <img src="{% static 'images/user_icon.png' %}" alt="User Icon" class="user-icon">
             <div>
-                <!-- Dynamically display full name -->
                 <h2>{{ user.first_name }} {{ user.last_name }}</h2>
-                <p>{{ user.role }}</p>  <!-- Assuming you want to show the role -->
-                <p>Joined: {{ user.date_joined|date:"F d, Y" }}</p>  <!-- Display date joined in a human-readable format -->
-                <!-- Removed "Change Profile Picture" link since profile picture is static -->
+                <p>Joined: {{ user.date_joined|date:"F d, Y" }}</p>
+                <p>{{ user.role }}</p>
             </div>
         </div>
         <form method="POST" enctype="multipart/form-data">
@@ -150,8 +160,7 @@
                 <input type="email" name="email" id="email" value="{{ user.email }}" required>
             </div>
             <div class="button-container">
-                <button type="submit">Save Changes</button>
-                <!-- Cancel button, redirects back to the dashboard -->
+                <button type="submit">Save</button>
                 <a href="{% url 'dashboard' %}">
                     <button type="button" class="cancel-btn">Cancel</button>
                 </a>

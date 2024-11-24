@@ -332,7 +332,7 @@
                 {% for activity in activities %}
                 <div class="activity-item">
                     <div class="activity-details">
-                        <img class="user-avatar" src="{{ activity.user_avatar_url }}" alt="User Avatar">
+                        <img src="{% static 'images/user_icon.png' %}" alt="Profile Image">
                         <div class="activity-content">
                             <p class="activity-user">
                                 <strong>{{ user.first_name }} {{ user.last_name }}</strong>
