@@ -1,6 +1,8 @@
 from django.shortcuts import render, redirect
 from .models import Feedback
 from django.utils import timezone
+from django.shortcuts import get_object_or_404
+
 from django.contrib.auth.decorators import login_required
 
 def feedback_list(request):
