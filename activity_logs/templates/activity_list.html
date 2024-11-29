@@ -258,17 +258,17 @@
 }
 
 .activity-actions button {
-    background: #FFBCB4;
+    background: none;
     border: none;
-    padding: 5px 10px;
-    border-radius: 5px;
-    color: #BB2517;
+    font-size: 14px;
+    color: #888;
     cursor: pointer;
-    margin-left: 10px;
 }
-
+.activity-actions:hover .dropdown-menu {
+    display: block;
+}
 /* Adjustments for 'Write something here...' message box */
-.activity-log > .activity-item:first-of-type {
+.activity-log .activity-item:first-of-type {
     background-color: #FBFF00;
     border-radius: 10px;
     padding: 15px;
@@ -324,28 +324,29 @@
         <div class="main-content">
             <div class="header">
                 <h1>Activity</h1>
-                <a href="{% url 'add_activity' %}" class="add-button">Add</a>
+                <a href="{% url 'add_activity' %}" class="add-button">Add Activity</a>
             </div>
             <div class="activity-log">
+                <!-- Today's Activities -->
                 <h2 class="section-title">Today</h2>
                 <div class="divider"></div>
-                {% for activity in activities %}
+                {% for activity in today_activities %}
                 <div class="activity-item">
                     <div class="activity-details">
                         <img src="{% static 'images/user_icon.png' %}" alt="Profile Image">
                         <div class="activity-content">
                             <p class="activity-user">
-                                <strong>{{ user.first_name }} {{ user.last_name }}</strong>
+                                <strong>{{ activity.user.first_name }} {{ activity.user.last_name }}</strong>
                             </p>
                             <p class="message">{{ activity.message }}</p>
                         </div>
                     </div>
                     <div class="activity-actions">
                         <span class="timestamp">{{ activity.timestamp|date:"H:i A" }}</span>
+                        <!-- Dropdown for actions -->
                         <div class="dropdown">
                             <input type="checkbox" id="dropdown-{{ activity.id }}" class="dropdown-checkbox">
                             <label for="dropdown-{{ activity.id }}" class="more-options">...</label>
-
                             <div class="dropdown-menu">
                                 <ul>
                                     <li>
@@ -363,9 +364,101 @@
                             </div>
                         </div>
                     </div>
-                </div>                
+                </div>
+                {% empty %}
+                <p>No activities for today.</p>
                 {% endfor %}
-            </div>
+            
+                <!-- Yesterday's Activities -->
+                <h2 class="section-title">Yesterday's Activity</h2>
+                <div class="divider"></div>
+                {% for activity in yesterday_activities %}
+                <div class="activity-item">
+                    <div class="activity-details">
+                        <img src="{% static 'images/user_icon.png' %}" alt="Profile Image">
+                        <div class="activity-content">
+                            <p class="activity-user">
+                                <strong>{{ activity.user.first_name }} {{ activity.user.last_name }}</strong>
+                            </p>
+                            <p class="message">{{ activity.message }}</p>
+                        </div>
+                    </div>
+                    <div class="activity-actions">
+                        <span class="timestamp">{{ activity.timestamp|date:"F j, Y" }} at {{ activity.timestamp|date:"H:i A" }}</span>
+                        <div class="activity-actions">
+                            <span class="timestamp">{{ activity.timestamp|date:"H:i A" }}</span>
+                            <!-- Dropdown for actions -->
+                            <div class="dropdown">
+                                <input type="checkbox" id="dropdown-{{ activity.id }}" class="dropdown-checkbox">
+                                <label for="dropdown-{{ activity.id }}" class="more-options">...</label>
+                                <div class="dropdown-menu">
+                                    <ul>
+                                        <li>
+                                            <form action="{% url 'delete_activity' activity.id %}" method="post">
+                                                {% csrf_token %}
+                                                <button type="submit">Delete</button>
+                                            </form>
+                                        </li>
+                                        <li>
+                                            <form action="{% url 'update_activity' activity.id %}" method="get">
+                                                <button type="submit">Update</button>
+                                            </form>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% empty %}
+                <p>No activities for yesterday.</p>
+                {% endfor %}
+            
+                <!-- Older Activities -->
+                <h2 class="section-title">Older Activities</h2>
+                <div class="divider"></div>
+                {% for activity in older_activities %}
+                <div class="activity-item">
+                    <div class="activity-details">
+                        <img src="{% static 'images/user_icon.png' %}" alt="Profile Image">
+                        <div class="activity-content">
+                            <p class="activity-user">
+                                <strong>{{ activity.user.first_name }} {{ activity.user.last_name }}</strong>
+                            </p>
+                            <p class="message">{{ activity.message }}</p>
+                        </div>
+                    </div>
+                    <div class="activity-actions">
+                        <span class="timestamp">{{ activity.timestamp|date:"F j, Y" }} at {{ activity.timestamp|date:"H:i A" }}</span>
+                        <div class="activity-actions">
+                            <span class="timestamp">{{ activity.timestamp|date:"H:i A" }}</span>
+                            <!-- Dropdown for actions -->
+                            <div class="dropdown">
+                                <input type="checkbox" id="dropdown-{{ activity.id }}" class="dropdown-checkbox">
+                                <label for="dropdown-{{ activity.id }}" class="more-options">...</label>
+                                <div class="dropdown-menu">
+                                    <ul>
+                                        <li>
+                                            <form action="{% url 'delete_activity' activity.id %}" method="post">
+                                                {% csrf_token %}
+                                                <button type="submit">Delete</button>
+                                            </form>
+                                        </li>
+                                        <li>
+                                            <form action="{% url 'update_activity' activity.id %}" method="get">
+                                                <button type="submit">Update</button>
+                                            </form>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% empty %}
+                <p>No older activities.</p>
+                {% endfor %}
+            </div>            
         </div>
     </div>
 </body>

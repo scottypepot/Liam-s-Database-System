@@ -4,19 +4,18 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from activity_logs.models import Activity  # Corrected import to refer to the 'activity_logs' app
 
-@login_required  # Ensure the user is logged in before accessing the dashboard
+@login_required
 def dashboard_view(request):
     try:
-        # Retrieve the 4 most recent logs from the ActivityLog model
-        recent_logs = Activity.objects.all().order_by('-timestamp')[:4]
+        recent_logs = Activity.objects.filter(user=request.user).order_by('-timestamp')[:4]
     except Activity.DoesNotExist:
         recent_logs = []
 
-    # Pass the logs and the user to the template
     return render(request, 'dashboard.html', {
         'recent_logs': recent_logs,
-        'user': request.user  # Pass logged-in user for personalized content (e.g., greeting)
+        'user': request.user,
     })
+
 
 def logout_view(request):
     logout(request)  # Log the user out

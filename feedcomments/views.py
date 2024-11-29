@@ -12,13 +12,13 @@ def feedback_list(request):
 @login_required
 def add_feedback(request):
     if request.method == 'POST':
-        user = request.user
         comment = request.POST.get('comment')
-        feedback = Feedback(user=user, comment=comment) 
+        feedback = Feedback(user=request.user, comment=comment)
         feedback.save()
         return redirect('feedback_list')
-    
+
     return render(request, 'add_feedback.html')
+
 
 def delete_feedback(request, id):
     feedback = get_object_or_404(Feedback, id=id)
