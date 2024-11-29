@@ -10,11 +10,22 @@
 <body>
     <div class="form-container">
         <h1>Add Activity</h1>
+        <!-- Check if there is an error message passed to the template -->
+        {% if error %}
+            <div class="error-message">
+                <p>{{ error }}</p>
+            </div>
+        {% endif %}
+        <!-- Form for adding an activity -->
         <form method="POST">
             {% csrf_token %}
-            <label for="user">User: {{ user.first_name }} {{ user.last_name }}</label>
-            <label for="message">Message:</label>
-            <textarea name="message" id="message" required></textarea>
+            <div class="user-info">
+                <label for="user">User: {{ user.first_name }} {{ user.last_name }}</label>
+            </div>
+            <div class="message-field">
+                <label for="message">Message:</label>
+                <textarea name="message" id="message" required></textarea>
+            </div>
             <button type="submit">Add</button>
         </form>
     </div>

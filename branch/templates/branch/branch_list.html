@@ -69,6 +69,7 @@
             flex: 1;
             padding: 20px;
         }
+
         .header {
             display: flex;
             justify-content: space-between;
@@ -79,11 +80,27 @@
             font-size: 40px;
             font-weight: 400;
         }
-       
+
+        .add-branch-btn {
+            background-color: #580801;
+            color: white;
+            font-size: 16px;
+            font-weight: 600;
+            padding: 10px 20px;
+            border-radius: 8px;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .add-branch-btn:hover {
+            background-color: #6c0a0a;
+        }
+
         .cards {
             display: flex;
             justify-content: space-between;
             gap: 20px;
+            flex-wrap: wrap;
         }
         .card {
             flex: 1;
@@ -92,6 +109,7 @@
             padding: 20px;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
             min-width: 300px;
+            max-width: 350px;
         }
         .card-header {
             background: #FFBCB4;
@@ -104,9 +122,10 @@
             margin-top: -15px;
         }
         .card-content img {
-            width: 100px;
-            height: 100px;
-            border-radius: 50%;
+            width: 100%;
+            height: 200px; /* Set a fixed height for rectangular shape */
+            object-fit: cover; /* Ensure the image covers the area properly */
+            border-radius: 10px;
             margin-bottom: 15px;
         }
         .card-content h2 {
@@ -138,6 +157,36 @@
         .status.approved {
             color: #00FF00;
         }
+        .logout-btn {
+            margin-top: 20px;
+            background: #580801;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            border-radius: 5px;
+            text-align: center;
+        }
+
+        .logout-btn:hover {
+            background: #6c0a0a;
+        }
+        .delete-btn {
+    background-color: red;
+    color: white;
+    font-weight: bold;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.delete-btn:hover {
+    background-color: darkred;
+}
+
+
     </style>
 </head>
 
@@ -166,31 +215,45 @@
                     <img src="{% static 'images/leave.png' %}" alt="Leave Icon">
                     Leave
                 </a>
-                <a href="{% url 'branch_list' %}" class="menu-item">
-                    <img src="{% static 'images/branch.png' %}" alt="Branch Icon">
-                    Branch
-                </a>
+                {% if user.is_staff %}
+                    <a href="{% url 'branch_list' %}" class="menu-item">
+                        <img src="{% static 'images/branch.png' %}" alt="Branch Icon">
+                        Branch
+                    </a>
+                {% endif %}
             </nav>
         </aside>
 
-        <main class="main">
-            <header class="header">
-                <h1>Labangon Branch</h1>
-            </header>
-            <section>
-                <h3>Labangon Branch</h3>
-                <p>Location: 789 Labangon St, Cebu City</p>
-                <h4>Employees:</h4>
-                <ul>
-                    <li>
-                        <img src="path_to_profile_picture/alvin_gitgano.jpg" alt="Alvin Nate Gitgano" style="width:50px; height:50px; border-radius:50%;">
-                        <strong>Employee:</strong> Alvin Nate Gitgano<br>
-                        <strong>Age:</strong> 40<br>
-                        <strong>Gender:</strong> Male
-                    </li>
-                </ul>
-            </section>
-        </main>
+        <div class="main">
+            <div class="header">
+                <h1>Branches</h1>
+                <!-- Add Branch Button - Only visible to admin or superadmin -->
+                {% if user.is_staff %}
+                    <a href="{% url 'add_branch' %}" class="add-branch-btn">Add Branch</a>
+                {% endif %}
+
+            </div>
+            <!-- Display Branch List -->
+            <div class="cards">
+                    {% for branch in branches %}
+                    <div class="card">
+                        <div class="card-header"></div>
+                        <div class="card-content">
+                            <h2>{{ branch.name }}</h2>
+                            <p>{{ branch.location }}</p>
+                            <p>{{ branch.created_at }}</p>
+                            {% if branch.image %}
+                                <img src="{{ branch.image.url }}" alt="{{ branch.name }}">
+                            {% else %}
+                                <p>No image available</p>
+                            {% endif %}
+                            <a href="{% url 'update_branch' branch.id %}" class="update-btn">Update Branch</a>
+                            <a href="{%url 'delete_branch' branch.id %}" class ="delete-branch-btn">Delete Branch</a>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
     </div>
 </body>
 </html>

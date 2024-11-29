@@ -1,5 +1,5 @@
 from django.db import models
-from authentication.models import UserProfile
+from authentication.models import UserProfile  # Importing the UserProfile model
 
 class Activity(models.Model):
     user = models.ForeignKey(UserProfile, on_delete=models.CASCADE, related_name='activities')
@@ -7,4 +7,6 @@ class Activity(models.Model):
     timestamp = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f'{self.user.username}: {self.message[:20]}'
+        # Return a more meaningful string representation of the activity
+        return f'Activity by {self.user.username} on {self.timestamp.strftime("%Y-%m-%d %H:%M:%S")}: {self.message[:20]}...'
+

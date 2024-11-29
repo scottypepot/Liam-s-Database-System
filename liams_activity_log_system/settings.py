@@ -139,3 +139,7 @@ AUTH_USER_MODEL = 'authentication.UserProfile'  # Use the custom UserProfile mod
 # Login redirection URLs
 LOGIN_REDIRECT_URL = '/dashboard/'  # Update this to the main page after login
 LOGOUT_REDIRECT_URL = '/login/'  # Redirect to login page after logout
+
+import os
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')

@@ -2,7 +2,7 @@ from django.contrib import admin
 from .models import Branch
 
 class BranchAdmin(admin.ModelAdmin):
-    list_display = ('name', 'location', 'created_at')
+    list_display = ('name', 'location', 'image')  # Added 'image' for display
 
     def get_model_perms(self, request):
         perms = super().get_model_perms(request)

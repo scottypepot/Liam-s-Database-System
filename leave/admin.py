@@ -1,18 +1,23 @@
 from django.contrib import admin
-from .models import LeaveRequest
+from .models import Leave
 
-class LeaveRequestAdmin(admin.ModelAdmin):
-    list_display = ('employee', 'leave_type', 'start_date', 'end_date', 'status')
-    actions = ['approve_leave']
+# Define the actions for approving and declining leave requests
+def approve_leave(modeladmin, request, queryset):
+    queryset.update(status='Approved')
 
-    def approve_leave(self, request, queryset):
-        if request.user.role in ['ADMIN', 'SUPERADMIN']:
-            queryset.update(status='Approved')
-            self.message_user(request, "Selected leave requests have been approved.")
-        else:
-            self.message_user(request, "You do not have permission to approve leave requests.")
-    
-    approve_leave.short_description = "Approve selected leave requests"
+approve_leave.short_description = "Approve selected leave requests"
 
-# Register the LeaveRequest model with the admin interface
-admin.site.register(LeaveRequest, LeaveRequestAdmin)
+def decline_leave(modeladmin, request, queryset):
+    queryset.update(status='Declined')
+
+decline_leave.short_description = "Decline selected leave requests"
+
+# Register the Leave model with custom admin actions
+class LeaveAdmin(admin.ModelAdmin):
+    list_display = ('user', 'start_date', 'end_date', 'status', 'reason')
+    list_filter = ('status', 'user')
+    search_fields = ('user__username', 'reason')
+    actions = [approve_leave, decline_leave]
+
+# Register the Leave model in the admin site
+admin.site.register(Leave, LeaveAdmin)

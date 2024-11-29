@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:400,600,700,800&display=swap">
+    <title>Add Branch</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Inter', sans-serif;
+            background: white;
+        }
+
+        .container {
+            display: flex;
+        }
+
+        .sidebar {
+            width: 280px;
+            height: 100vh;
+            background: #580801;
+            padding: 20px 0;
+            position: fixed;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 10px;
+        }
+
+        .brand h1 {
+            color: #FBFF00;
+            font-size: 26px;
+        }
+
+        .menu {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            flex-grow: .6;
+        }
+
+        .menu-item {
+            color: white;
+            font-size: 16px;
+            font-weight: 400;
+            padding: 23px;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .menu-item img {
+            margin-right: 15px;
+            width: 33px;
+            height: 33px;
+        }
+
+        .menu-item:hover {
+            background: #6c0a0a;
+        }
+
+        .main {
+            margin-left: 280px;
+            flex: 1;
+            padding: 20px;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            font-size: 40px;
+            font-weight: 400;
+        }
+
+        .form-container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f9f9f9;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-container input {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            font-size: 16px;
+        }
+
+        .form-container button {
+            width: 100%;
+            padding: 12px;
+            background-color: #580801;
+            color: white;
+            font-size: 18px;
+            font-weight: bold;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .form-container button:hover {
+            background-color: #6c0a0a;
+        }
+
+        .form-container h2 {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+
+{% load static %}
+<body>
+    <div class="container">
+        <aside class="sidebar">
+            <div class="brand">
+                <img src="{% static 'images/liams_logo.png' %}" alt="Brand Logo">
+                <h1>Liams</h1>
+            </div>
+            <nav class="menu">
+                <a href="{% url 'dashboard' %}" class="menu-item">
+                    <img src="{% static 'images/dashboard.png' %}" alt="Dashboard Icon">
+                    Dashboard
+                </a>
+                <a href="{% url 'activity_list' %}" class="menu-item">
+                    <img src="{% static 'images/activity_log.png' %}" alt="Activity Log Icon">
+                    Activity Log
+                </a>
+                <a href="{% url 'feedback_list' %}" class="menu-item">
+                    <img src="{% static 'images/feedback_comment.png' %}" alt="Feedback Icon">
+                    Feedback and Comment
+                </a>
+                <a href="{% url 'leave_list' %}" class="menu-item">
+                    <img src="{% static 'images/leave.png' %}" alt="Leave Icon">
+                    Leave
+                </a>
+                {% if user.is_staff %}
+                    <a href="{% url 'branch_list' %}" class="menu-item">
+                        <img src="{% static 'images/branch.png' %}" alt="Branch Icon">
+                        Branch
+                    </a>
+                {% endif %}
+            </nav>
+        </aside>
+
+        <div class="main">
+            <div class="header">
+                <h1>Add Branch</h1>
+            </div>
+
+            <div class="form-container">
+                <h2>Enter Branch Details</h2>
+                <form method="post" action="{% url 'add_branch' %}" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <!-- The branch name field is removed, and we set it to 'Liams' in the backend -->
+                    <div>
+                        <label for="branch_location">Location</label>
+                        <input type="text" id="branch_location" name="location" placeholder="Enter Branch Location" required>
+                    </div>
+                    <div>
+                        <label for="branch_image">Branch Image</label>
+                        <input type="file" id="branch_image" name="image" accept="image/*" required>
+                    </div>
+                    <button type="submit">Add Branch</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

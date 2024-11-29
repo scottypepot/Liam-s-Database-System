@@ -1,13 +1,9 @@
-# branch/models.py
 from django.db import models
-from django.conf import settings  # Import settings to use AUTH_USER_MODEL
-
 
 class Branch(models.Model):
-    name = models.CharField(max_length=100)
-    created_at = models.DateTimeField(auto_now_add=True)
-    location = models.CharField(max_length=100)
-    created_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    name = models.CharField(max_length=100, default = 'Liams')
+    location = models.CharField(max_length=255)
+    image = models.ImageField(upload_to='branch_images/', null=True, blank=True)  # Add image field
 
     def __str__(self):
         return self.name

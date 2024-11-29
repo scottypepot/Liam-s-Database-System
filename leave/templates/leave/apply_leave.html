@@ -214,10 +214,12 @@
                     <img src="{% static 'images/leave.png' %}" alt="Leave Icon">
                     Leave
                 </a>
+                {% if user.is_staff %}
                 <a href="{% url 'branch_list' %}" class="menu-item">
                     <img src="{% static 'images/branch.png' %}" alt="Branch Icon">
                     Branch
                 </a>
+            {% endif %}
             </nav>
         </aside>
 
