@@ -2,12 +2,24 @@ from django.shortcuts import render, redirect
 from .models import Feedback
 from django.utils import timezone
 from django.shortcuts import get_object_or_404
-
+from datetime import timedelta
 from django.contrib.auth.decorators import login_required
 
+
 def feedback_list(request):
-    feedbacks = Feedback.objects.all().order_by('-timestamp')
-    return render(request, 'feedback_list.html', {'feedbacks': feedbacks})
+    today = timezone.now().date()  # Get today's date with timezone-aware datetime
+    yesterday = today - timedelta(days=1)
+    
+    # Get feedback for today, yesterday, and older
+    feedbacks_today = Feedback.objects.filter(timestamp__date=today).order_by('-timestamp')
+    feedbacks_yesterday = Feedback.objects.filter(timestamp__date=yesterday).order_by('-timestamp')
+    feedbacks_older = Feedback.objects.filter(timestamp__lt=yesterday).order_by('-timestamp')
+
+    return render(request, 'feedback_list.html', {
+        'feedbacks_today': feedbacks_today,
+        'feedbacks_yesterday': feedbacks_yesterday,
+        'feedbacks_older': feedbacks_older
+    })
 
 @login_required
 def add_feedback(request):

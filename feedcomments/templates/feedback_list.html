@@ -240,6 +240,36 @@ max-width: 500px;
 .dropdown-menu li button:hover {
     background-color: #f0f0f0;
 }
+.section-title {
+    font-size: 25px;
+    text-align: center;
+    margin-bottom: 10px;
+}
+.divider {
+    height: 1px;
+    background: black;
+    margin-bottom: 30px;
+}
+.dropdown-menu {
+    display: none;
+    position: absolute;
+    top: 25px;
+    right: 0;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    width: 150px;
+}
+.more-options {
+    background: none;
+    border: none;
+    font-size: 20px;
+    color: #888;
+    cursor: pointer;
+    position: relative;
+}
 
 </style>
 <body>
@@ -267,12 +297,6 @@ max-width: 500px;
                     <img src="{% static 'images/leave.png' %}" alt="Leave Icon">
                     Leave
                 </a>
-                {% if user.is_staff %}
-                <a href="{% url 'branch_list' %}" class="menu-item">
-                    <img src="{% static 'images/branch.png' %}" alt="Branch Icon">
-                    Branch
-                </a>
-            {% endif %}
             </nav>
             <a href="{% url 'logout' %}" class="logout-btn-sidebar">
                 <img src="{% static 'images/logout.png' %}" alt="Logout Icon">
@@ -286,16 +310,18 @@ max-width: 500px;
                 <h1>Feedback Log</h1>
                 <a href="{% url 'add_feedback' %}" class="add-button">Add Feedback</a>
             </div>
+            
+            <!-- Today's Feedback -->
             <div class="feedback-log">
                 <h2 class="section-title">Today's Feedback</h2>
                 <div class="divider"></div>
-                {% for feedback in feedbacks %}
+                {% for feedback in feedbacks_today %}
                 <div class="feedback-item">
                     <div class="feedback-details">
-                        <img class="user-avatar" src="{{ feedback.user_avatar_url }}" alt="User Avatar">
+                        <img src="{% static 'images/user_icon.png' %}" alt="Profile Image">
                         <div class="feedback-content">
                             <p class="feedback-user">
-                                <strong>{{user.first_name }} {{ user.last_name }}</strong>
+                                <strong>{{ feedback.user.first_name }} {{ feedback.user.last_name }}</strong>
                             </p>
                             <p class="comment">{{ feedback.comment }}</p>
                         </div>
@@ -314,9 +340,43 @@ max-width: 500px;
                                             <button type="submit">Delete</button>
                                         </form>
                                     </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% empty %}
+                <p>No feedback available for today.</p>
+                {% endfor %}
+            </div>
+
+            <!-- Yesterday's Feedback -->
+            <div class="feedback-log">
+                <h2 class="section-title">Yesterday's Feedback</h2>
+                <div class="divider"></div>
+                {% for feedback in feedbacks_yesterday %}
+                <div class="feedback-item">
+                    <div class="feedback-details">
+                        <img src="{% static 'images/user_icon.png' %}" alt="Profile Image">
+                        <div class="feedback-content">
+                            <p class="feedback-user">
+                                <strong>{{ feedback.user.first_name }} {{ feedback.user.last_name }}</strong>
+                            </p>
+                            <p class="comment">{{ feedback.comment }}</p>
+                        </div>
+                    </div>
+                    <div class="feedback-actions">
+                        <span class="timestamp">{{ feedback.timestamp|date:"F j, Y" }} at {{ feedback.timestamp|date:"H:i A" }}</span>
+                        <div class="dropdown">
+                            <input type="checkbox" id="dropdown-{{ feedback.id }}" class="dropdown-checkbox">
+                            <label for="dropdown-{{ feedback.id }}" class="more-options">...</label>
+
+                            <div class="dropdown-menu">
+                                <ul>
                                     <li>
-                                        <form action="{% url 'update_feedback' feedback.id %}" method="get">
-                                            <button type="submit">Update</button>
+                                        <form action="{% url 'delete_feedback' feedback.id %}" method="post">
+                                            {% csrf_token %}
+                                            <button type="submit">Delete</button>
                                         </form>
                                     </li>
                                 </ul>
@@ -325,7 +385,46 @@ max-width: 500px;
                     </div>
                 </div>
                 {% empty %}
-                <p>No feedback logged for today.</p>
+                <p>No feedback available for yesterday.</p>
+                {% endfor %}
+            </div>
+
+            <!-- Older Feedback -->
+            <div class="feedback-log">
+                <h2 class="section-title">Older Feedback</h2>
+                <div class="divider"></div>
+                {% for feedback in feedbacks_older %}
+                <div class="feedback-item">
+                    <div class="feedback-details">
+                        <img src="{% static 'images/user_icon.png' %}" alt="Profile Image">
+                        <div class="feedback-content">
+                            <p class="feedback-user">
+                                <strong>{{ feedback.user.first_name }} {{ feedback.user.last_name }}</strong>
+                            </p>
+                            <p class="comment">{{ feedback.comment }}</p>
+                        </div>
+                    </div>
+                    <div class="feedback-actions">
+                        <span class="timestamp">{{ feedback.timestamp|date:"F j, Y" }} at {{ feedback.timestamp|date:"H:i A" }}</span>
+                        <div class="dropdown">
+                            <input type="checkbox" id="dropdown-{{ feedback.id }}" class="dropdown-checkbox">
+                            <label for="dropdown-{{ feedback.id }}" class="more-options">...</label>
+
+                            <div class="dropdown-menu">
+                                <ul>
+                                    <li>
+                                        <form action="{% url 'delete_feedback' feedback.id %}" method="post">
+                                            {% csrf_token %}
+                                            <button type="submit">Delete</button>
+                                        </form>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% empty %}
+                <p>No older feedback available.</p>
                 {% endfor %}
             </div>
         </div>
