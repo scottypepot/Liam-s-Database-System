@@ -18,12 +18,11 @@ def leave_list(request):
             leave_request.status = 'Declined'
             leave_request.save()
             return redirect('leave_list')
-    
-    # Filter leave requests based on user type
+        
     if request.user.is_staff:
-        leaves = Leave.objects.all()  # Admin sees all requests
+        leaves = Leave.objects.all().order_by('-id')  
     else:
-        leaves = Leave.objects.filter(user=request.user)  # Regular user sees their own requests
+        leaves = Leave.objects.filter(user=request.user).order_by('-id')  
     
     leave_details = []
     for leave in leaves:
@@ -32,24 +31,22 @@ def leave_list(request):
 
     return render(request, 'leave/leave_list.html', {'leave_details': leave_details})
 
-# Apply for a leave
 @login_required
 def apply_leave(request):
     if request.method == 'POST':
         form = LeaveForm(request.POST)
         if form.is_valid():
             leave = form.save(commit=False)
-            leave.user = request.user  # Assign the logged-in user to the leave request
-            leave.save()  # Save the leave request to the database
-            return redirect('leave_list')  # Redirect to leave list to show the newly created leave request
+            leave.user = request.user  
+            leave.save()  
+            return redirect('leave_list')  
     else:
         form = LeaveForm()
 
     return render(request, 'leave/apply_leave.html', {'form': form})
 
-# Admin can approve or decline leave requests
 @login_required
-@permission_required('leave.change_leave', raise_exception=True)  # Ensure only users with permission can perform this action
+@permission_required('leave.change_leave', raise_exception=True)
 def approve_decline_leave(request):
     if request.method == 'POST':
         action = request.POST.get('action')
@@ -64,4 +61,4 @@ def approve_decline_leave(request):
             leave_request.save()
         
         return redirect('leave_list')
-    return redirect('leave_list')  # Default redirection if not POST
+    return redirect('leave_list')
