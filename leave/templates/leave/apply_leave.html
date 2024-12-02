@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Apply Leave Form</title>
+    <title>Liams Activity Log System</title>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:400,600,700,800&display=swap">
     <style>
         body {
@@ -22,26 +22,22 @@
             display: flex;
             flex-direction: column;
         }
-
         .brand {
             display: flex;
             align-items: center;
             justify-content: center;
             margin-bottom: 10px;  
         }
-
         .brand h1 {
             color: #FBFF00;  
             font-size: 26px;
         }
-
         .menu {
             display: flex;
             flex-direction: column;
             justify-content: center;  
             flex-grow: 0.6; 
         }
-
         .menu-item {
             color: white;
             font-size: 16px;
@@ -53,17 +49,14 @@
             cursor: pointer;
             text-decoration: none;
         }
-
         .menu-item img {
             margin-right: 15px;
             width: 33px;
             height: 33px;
         }
-
         .menu-item:hover {
             background: #6c0a0a;
         }
-
         .main {
             margin-left: 280px;
             flex: 1;
@@ -79,53 +72,35 @@
             font-size: 40px;
             font-weight: 400;
         }
-        .btn {
-            padding: 10px 20px;
-            background: #FFBCB4;
-            color: #BB2517;
-            border: none;
-            border-radius: 10px;
-            font-size: 24px;
-            cursor: pointer;
-            text-decoration: none;
-        }
-        .btn:hover {
-            background: #FCE3DF;
-        }
-
         .form-container {
             width: 100%;
             max-width: 800px;
             margin: 0 auto;
             padding: 20px;
-            background: #f7f7f7;
+            background: #FCE3DF;
             border-radius: 8px;
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
             display: flex;
             flex-direction: column;
         }
-
         .form-row {
             display: flex;
             gap: 20px;
         }
-
         .form-container label {
             font-size: 16px;
             font-weight: 600;
             color: #333;
             margin-bottom: 8px;
         }
-
         .form-container input,
         .form-container textarea {
             width: 100%;
             padding: 10px;
-            border: 1px solid #ccc;
+            border: 1px solid #000000;
             border-radius: 8px;
             font-size: 16px;
         }
-
         .form-container button {
             padding: 12px 25px;
             background: #FFBCB4;
@@ -134,38 +109,76 @@
             border-radius: 10px;
             font-size: 18px;
             cursor: pointer;
+            transition: background 0.3s ease;
         }
-
         .form-container button:hover {
             background: #FCE3DF;
         }
-
         .form-container .leave-buttons {
             display: flex;
             gap: 15px;
             margin-top: 10px;
         }
-
         .form-container .leave-button {
             flex: 1;
             text-align: center;
-            background: #e0e0e0;
-            border: none;
+            background: #FCE3DF;
+            border: 1px solid #000000;
             border-radius: 8px;
             padding: 10px 15px;
             font-size: 16px;
             cursor: pointer;
         }
-
         .form-container .leave-button.active {
             background: #BB2517;
             color: #fff;
         }
-
+        textarea#reason {
+            background-color: #FCE3DF;
+            border: 1px solid #000000;
+            border-radius: 8px;
+            font-size: 16px;
+            padding: 10px;
+            resize: none;
+            max-width: 777px;
+        }
+        input[type="date"] {
+            background-color: #FCE3DF;
+            border: 1px solid #000000;
+            border-radius: 8px;
+            font-size: 16px;
+            padding: 10px;
+        }
         .submit-btn-container {
             display: flex;
             justify-content: flex-end; 
             margin-top: 20px;
+        }
+        .logout-btn-sidebar {
+            color: white;
+            font-size: 16px;
+            font-weight: 400;
+            padding: 50px 23px;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            text-decoration: none;
+            margin-top: auto;
+        }
+        .logout-btn-sidebar:hover {
+            background: #6c0a0a;
+        }
+        .header {
+            display: flex;
+            flex-direction: column; 
+            align-items: flex-start; 
+            gap: 10px; 
+        }
+        .back-btn {
+            display: inline-block;
+            text-decoration: none;
+            color: inherit;
         }
     </style>
 
@@ -190,6 +203,7 @@
         }
     </script>
 </head>
+
 <body>
     <div class="container">
         <aside class="sidebar">
@@ -199,51 +213,40 @@
             </div>
             <nav class="menu">
                 <a href="{% url 'dashboard' %}" class="menu-item">
-                    <img src="{% static 'images/dashboard.png' %}" alt="Dashboard Icon">
-                    Dashboard
+                    <img src="{% static 'images/dashboard.png' %}" alt="Dashboard Icon"> Dashboard
                 </a>
                 <a href="{% url 'activity_list' %}" class="menu-item">
-                    <img src="{% static 'images/activity_log.png' %}" alt="Activity Log Icon">
-                    Activity Log
+                    <img src="{% static 'images/activity_log.png' %}" alt="Activity Log Icon"> Activity Log
                 </a>
                 <a href="{% url 'feedback_list' %}" class="menu-item">
-                    <img src="{% static 'images/feedback_comment.png' %}" alt="Feedback Icon">
-                    Feedback and Comment
+                    <img src="{% static 'images/feedback_comment.png' %}" alt="Feedback Icon"> Feedback and Comment
                 </a>
                 <a href="{% url 'leave_list' %}" class="menu-item">
-                    <img src="{% static 'images/leave.png' %}" alt="Leave Icon">
-                    Leave
+                    <img src="{% static 'images/leave.png' %}" alt="Leave Icon"> Leave
                 </a>
                 {% if user.is_staff %}
                 <a href="{% url 'branch_list' %}" class="menu-item">
-                    <img src="{% static 'images/branch.png' %}" alt="Branch Icon">
-                    Branch
+                    <img src="{% static 'images/branch.png' %}" alt="Branch Icon"> Branch
                 </a>
-            {% endif %}
+                {% endif %}
             </nav>
+                <a href="{% url 'logout' %}" class="logout-btn-sidebar">
+                    <img src="{% static 'images/logout.png' %}" alt="Logout Icon"> Logout
+                </a>
         </aside>
 
         <main class="main">
             <header class="header">
+                <a href="{% url 'leave_list' %}" class="back-btn">
+                    <img src="{% static 'images/back.png' %}" alt="Back" style="width: 40px; height: 40px; margin-right: 10px;">
+                </a>
                 <h1>Apply Leave Form</h1>
             </header>
             <div class="form-container">
                 <form method="post" onsubmit="return validateDates()">
                     {% csrf_token %}
-
-                    <div class="form-row">
-                        <div>
-                            <label for="first_name">First Name</label>
-                            <input type="text" id="first_name" name="first_name" value="{{ form.first_name.value }}" required>
-                        </div>
-                        <div>
-                            <label for="last_name">Last Name</label>
-                            <input type="text" id="last_name" name="last_name" value="{{ form.last_name.value }}" required>
-                        </div>
-                    </div>
-                    
                     <div>
-                        <label for="leave_type">Type of Leave</label>
+                        <h3>Type of Leave</h3>
                         <div class="leave-buttons">
                             <button type="button" class="leave-button" onclick="toggleLeaveType(this)">Vacation</button>
                             <button type="button" class="leave-button" onclick="toggleLeaveType(this)">Sick</button>
@@ -251,26 +254,28 @@
                         </div>
                         <input type="hidden" id="leave_type" name="leave_type" value="">
                     </div>
-
                     <div>
-                        <label for="start_date">Date of Leave (From)</label>
-                        <input type="date" id="start_date" name="start_date" value="{{ form.start_date.value }}" required>
+                        <h3>Date of Leave</h3>
+                        <div style="display: flex; gap: 50px;">
+                            <div style="display: flex; flex-direction: column; align-items: flex-start;">
+                                <label for="start_date">From</label>
+                                <input type="date" id="start_date" name="start_date" required style="width: 200px;">
+                            </div>
+                            <div style="display: flex; flex-direction: column; align-items: flex-start;">
+                                <label for="end_date">To</label>
+                                <input type="date" id="end_date" name="end_date" required style="width: 200px;">
+                            </div>
+                        </div>
                     </div>
                     <div>
-                        <label for="end_date">Date of Leave (To)</label>
-                        <input type="date" id="end_date" name="end_date" value="{{ form.end_date.value }}" required>
+                        <h3>Reason</h3>
+                        <textarea id="reason" name="reason" rows="4" placeholder="Enter your reason here..." required></textarea>
                     </div>
-
-                    <div>
-                        <label for="reason">Reason</label>
-                        <textarea id="reason" name="reason" rows="4" required>{{ form.reason.value }}</textarea>
-                    </div>
-
                     <div class="submit-btn-container">
-                        <button type="submit">Submit Leave</button>
+                        <button type="submit" class="submit-btn">Submit Leave</button>
                     </div>
-                </form>
-            </div>
+                </form>                
+            </div>            
         </main>
     </div>
 </body>

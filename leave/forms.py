@@ -2,9 +2,6 @@ from django import forms
 from .models import Leave
 
 class LeaveForm(forms.ModelForm):
-    first_name = forms.CharField(label='First Name', max_length=100, required=True)
-    last_name = forms.CharField(label='Last Name', max_length=100, required=True)
-
     class Meta:
         model = Leave
         fields = ['leave_type', 'start_date', 'end_date', 'reason']
@@ -28,3 +25,4 @@ class LeaveForm(forms.ModelForm):
             if start_date > end_date:
                 raise forms.ValidationError("The 'From' date cannot be later than the 'To' date.")
         return cleaned_data
+    
