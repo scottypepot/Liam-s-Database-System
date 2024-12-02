@@ -3,18 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:400,600,700,800&display=swap">
-    <title>Add Branch</title>
+    <title>Liams Activity Log System</title>
     <style>
         body {
             margin: 0;
             font-family: 'Inter', sans-serif;
             background: white;
         }
-
         .container {
             display: flex;
         }
-
         .sidebar {
             width: 280px;
             height: 100vh;
@@ -24,26 +22,22 @@
             display: flex;
             flex-direction: column;
         }
-
         .brand {
             display: flex;
             align-items: center;
             justify-content: center;
             margin-bottom: 10px;
         }
-
         .brand h1 {
             color: #FBFF00;
             font-size: 26px;
         }
-
         .menu {
             display: flex;
             flex-direction: column;
             justify-content: center;
             flex-grow: .6;
         }
-
         .menu-item {
             color: white;
             font-size: 16px;
@@ -55,72 +49,107 @@
             cursor: pointer;
             text-decoration: none;
         }
-
         .menu-item img {
             margin-right: 15px;
             width: 33px;
             height: 33px;
         }
-
         .menu-item:hover {
             background: #6c0a0a;
         }
-
         .main {
             margin-left: 280px;
             flex: 1;
             padding: 20px;
         }
-
         .header {
             display: flex;
             justify-content: space-between;
             align-items: center;
             margin-bottom: 30px;
         }
-
         .header h1 {
             font-size: 40px;
             font-weight: 400;
         }
-
         .form-container {
             max-width: 600px;
             margin: 0 auto;
-            padding: 20px;
-            background-color: #f9f9f9;
-            border-radius: 10px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            padding: 80px;
+            background-color: #FCE3DF;
+            border-radius: 15px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: left; 
+            gap: 20px;
         }
-
-        .form-container input {
+        .form-container h2 {
+            font-size: 26px;
+            margin-top: -55px;
+            text-align: left;
+        }
+        .form-container label {
+            font-weight: bold;
+        }
+        .form-container input,
+        .form-container label {
+            display: block;
             width: 100%;
+            margin-bottom: 15px;
+            font-size: 18px;
+        }
+        .form-container input[type="text"],
+        .form-container input[type="file"] {
+            background-color: #FCE3DF;
+            width: 572px;
             padding: 12px;
-            margin: 10px 0;
             border-radius: 5px;
-            border: 1px solid #ccc;
+            border: 1px solid #000;
             font-size: 16px;
         }
-
         .form-container button {
-            width: 100%;
-            padding: 12px;
-            background-color: #580801;
-            color: white;
-            font-size: 18px;
-            font-weight: bold;
+            padding: 12px 25px;
+            background: #FFBCB4;
+            color: #BB2517;
             border: none;
-            border-radius: 5px;
+            border-radius: 10px;
+            font-size: 18px;
             cursor: pointer;
+            transition: background 0.3s ease;
+            position: absolute;
+            right: 80px;
+            margin-top: 15px;
         }
-
         .form-container button:hover {
-            background-color: #6c0a0a;
+            background: #FCE3DF;
         }
-
-        .form-container h2 {
-            font-size: 24px;
-            margin-bottom: 20px;
+        .logout-btn-sidebar {
+            color: white;
+            font-size: 16px;
+            font-weight: 400;
+            padding: 50px 23px;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            text-decoration: none;
+            margin-top: auto;
+        }
+        .logout-btn-sidebar:hover {
+            background: #6c0a0a;
+        }
+        .header {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 10px;
+        }
+        .back-btn {
+            display: inline-block;
+            text-decoration: none;
+            color: inherit;
         }
     </style>
 </head>
@@ -157,10 +186,16 @@
                     </a>
                 {% endif %}
             </nav>
+            <a href="{% url 'logout' %}" class="logout-btn-sidebar">
+                <img src="{% static 'images/logout.png' %}" alt="Logout Icon"> Logout
+            </a>
         </aside>
 
         <div class="main">
             <div class="header">
+                <a href="{% url 'branch_list' %}" class="back-btn">
+                    <img src="{% static 'images/back.png' %}" alt="Back" style="width: 40px; height: 40px; margin-right: 10px;">
+                </a>
                 <h1>Add Branch</h1>
             </div>
 
@@ -168,7 +203,6 @@
                 <h2>Enter Branch Details</h2>
                 <form method="post" action="{% url 'add_branch' %}" enctype="multipart/form-data">
                     {% csrf_token %}
-                    <!-- The branch name field is removed, and we set it to 'Liams' in the backend -->
                     <div>
                         <label for="branch_location">Location</label>
                         <input type="text" id="branch_location" name="location" placeholder="Enter Branch Location" required>

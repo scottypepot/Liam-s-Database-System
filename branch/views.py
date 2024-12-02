@@ -12,9 +12,9 @@ def branch_list(request):
     if not request.user.is_staff:
         return redirect('dashboard')  # Redirect to dashboard if not admin
     
-    branches = Branch.objects.all()  # Fetch all branches from the database
+    # Fetch all branches and order them by ID in descending order (newest first)
+    branches = Branch.objects.all().order_by('-id')  # Ordering by ID to display the newest first
     return render(request, 'branch/branch_list.html', {'branches': branches})
-
 
 @login_required
 def add_branch(request):
@@ -39,7 +39,7 @@ def add_branch(request):
         if form.is_valid():
             # Set the name to 'Liams' before saving
             branch = form.save(commit=False)  # Don't save yet
-            branch.name = 'Liams'  # Set fixed name
+            branch.name = 'Liams Flavoured Chicken Wings'  # Set fixed name
             branch.save()  # Now save the branch with the location and image
             return redirect('branch_list')  # Redirect after successful form submission
     else:
@@ -53,14 +53,21 @@ def update_branch(request, branch_id):
     branch = get_object_or_404(Branch, id=branch_id)
     
     if request.method == 'POST':
-        form = BranchUpdateForm(request.POST, request.FILES, instance=branch)
-        if form.is_valid():
-            form.save()
-            return redirect('branch_list')  # Redirect to the branch list page after saving
-    else:
-        form = BranchUpdateForm(instance=branch)
+        # Handle the 'Clear' checkbox for the image
+        if 'image-clear' in request.POST:
+            branch.image.delete()  # Delete the current image
+            branch.image = None  # Reset the image field
 
-    return render(request, 'branch/update_branch.html', {'form': form, 'branch': branch})
+        # Update the fields
+        branch.name = request.POST.get('name')
+        branch.location = request.POST.get('location')
+        if 'image' in request.FILES:
+            branch.image = request.FILES['image']
+        branch.save()
+        
+        return redirect('branch_list')
+    
+    return render(request, 'branch/update_branch.html', {'branch': branch})
 
 @login_required
 def delete_branch(request, branch_id):
