@@ -112,6 +112,7 @@
     border-radius: 10px;
     padding: 10px 20px;
     text-decoration: none;
+    cursor: pointer;
 }
 
 .feedback-log {
@@ -159,15 +160,6 @@ max-width: 500px;
     color: #888;
 }
 
-.add-button {
-    background: #FFBCB4;
-    color: #BB2517;
-    font-size: 18px;
-    padding: 10px 20px;
-    border-radius: 5px;
-    text-decoration: none;
-    margin-bottom: 20px;
-}
 
 .add-button:hover {
     background: #FF9C87;
@@ -270,7 +262,78 @@ max-width: 500px;
     cursor: pointer;
     position: relative;
 }
+.modal-toggle {
+    display: none; /* Hide the checkbox */
+}
 
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.5); /* Black background with opacity */
+    padding-top: 60px;
+}
+
+.modal-content {
+    background-color: #fefefe;
+    margin: 5% auto;
+    padding: 35px;
+    border: 1px solid #888;
+    width: 90%;
+    max-width: 600px;
+    position: relative;
+    height: 210px;
+    border-radius: 6px;
+}
+
+.close-btn {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close-btn:hover,
+.close-btn:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.modal-toggle:checked + .modal {
+    display: block; /* Show the modal when the checkbox is checked */
+}
+.submit {
+    position: absolute;
+    bottom: 5px;
+    right: 20px;
+    background: #FFBCB4;
+    color: #BB2517;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-size: 15px;
+    transition: background 0.3s ease;
+    margin-bottom: 9px;
+}
+.submit:hover {
+    background: #FF9C87;
+}
+input[type="text"] {
+    width: 100%;
+    padding: 10px;
+    height: 60px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+    resize: none;
+    margin-top: 9px;
+}
 </style>
 <body>
     <div class="container">
@@ -308,9 +371,27 @@ max-width: 500px;
         <div class="main-content">
             <div class="header">
                 <h1>Feedback Log</h1>
-                <a href="{% url 'add_feedback' %}" class="add-button">Add Feedback</a>
+                <label for="feedbackModalToggle" class="add-button">Add Feedback</label>
             </div>
-            
+
+            <input type="checkbox" id="feedbackModalToggle" class="modal-toggle">
+            <div id="feedbackModal" class="modal">
+                <div class="modal-content">
+                    <label for="feedbackModalToggle" class="close-btn">&times;</label>
+                    <h2>Add Feedback</h2>
+                    <form action="{% url 'add_feedback' %}" method="post">
+                        {% csrf_token %}
+                        <div>
+                            <label for="message">Feedback Message:</label>
+                            <input type="text" id="message" name="message" placeholder="Add something here..." required />
+                        </div>
+                        <div>
+                            <button class="submit" type="submit">Add Feedback</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
             <!-- Today's Feedback -->
             <div class="feedback-log">
                 <h2 class="section-title">Today's Feedback</h2>
@@ -321,17 +402,24 @@ max-width: 500px;
                         <img src="{% static 'images/user_icon.png' %}" alt="Profile Image">
                         <div class="feedback-content">
                             <p class="feedback-user">
-                                <strong>{{ feedback.user.first_name }} {{ feedback.user.last_name }}</strong>
+                                <strong>
+                                    {{ feedback.user.first_name }} {{ feedback.user.last_name }}
+                                    {% if feedback.user == request.user %}
+                                        (You)
+                                    {% endif %}
+                                </strong>
                             </p>
                             <p class="comment">{{ feedback.comment }}</p>
                         </div>
                     </div>
                     <div class="feedback-actions">
                         <span class="timestamp">{{ feedback.timestamp|date:"H:i A" }}</span>
+                
+                        {% if feedback.user == request.user %}
                         <div class="dropdown">
                             <input type="checkbox" id="dropdown-{{ feedback.id }}" class="dropdown-checkbox">
                             <label for="dropdown-{{ feedback.id }}" class="more-options">...</label>
-
+                
                             <div class="dropdown-menu">
                                 <ul>
                                     <li>
@@ -343,6 +431,7 @@ max-width: 500px;
                                 </ul>
                             </div>
                         </div>
+                        {% endif %}
                     </div>
                 </div>
                 {% empty %}
@@ -360,17 +449,24 @@ max-width: 500px;
                         <img src="{% static 'images/user_icon.png' %}" alt="Profile Image">
                         <div class="feedback-content">
                             <p class="feedback-user">
-                                <strong>{{ feedback.user.first_name }} {{ feedback.user.last_name }}</strong>
+                                <strong>
+                                    {{ feedback.user.first_name }} {{ feedback.user.last_name }}
+                                    {% if feedback.user == request.user %}
+                                        (You)
+                                    {% endif %}
+                                </strong>
                             </p>
                             <p class="comment">{{ feedback.comment }}</p>
                         </div>
                     </div>
                     <div class="feedback-actions">
                         <span class="timestamp">{{ feedback.timestamp|date:"F j, Y" }} at {{ feedback.timestamp|date:"H:i A" }}</span>
+                
+                        {% if feedback.user == request.user %}
                         <div class="dropdown">
                             <input type="checkbox" id="dropdown-{{ feedback.id }}" class="dropdown-checkbox">
                             <label for="dropdown-{{ feedback.id }}" class="more-options">...</label>
-
+                
                             <div class="dropdown-menu">
                                 <ul>
                                     <li>
@@ -382,6 +478,7 @@ max-width: 500px;
                                 </ul>
                             </div>
                         </div>
+                        {% endif %}
                     </div>
                 </div>
                 {% empty %}
@@ -399,17 +496,24 @@ max-width: 500px;
                         <img src="{% static 'images/user_icon.png' %}" alt="Profile Image">
                         <div class="feedback-content">
                             <p class="feedback-user">
-                                <strong>{{ feedback.user.first_name }} {{ feedback.user.last_name }}</strong>
+                                <strong>
+                                    {{ feedback.user.first_name }} {{ feedback.user.last_name }}
+                                    {% if feedback.user == request.user %}
+                                        (You)
+                                    {% endif %}
+                                </strong>
                             </p>
                             <p class="comment">{{ feedback.comment }}</p>
                         </div>
                     </div>
                     <div class="feedback-actions">
                         <span class="timestamp">{{ feedback.timestamp|date:"F j, Y" }} at {{ feedback.timestamp|date:"H:i A" }}</span>
+                
+                        {% if feedback.user == request.user %}
                         <div class="dropdown">
                             <input type="checkbox" id="dropdown-{{ feedback.id }}" class="dropdown-checkbox">
                             <label for="dropdown-{{ feedback.id }}" class="more-options">...</label>
-
+                
                             <div class="dropdown-menu">
                                 <ul>
                                     <li>
@@ -421,6 +525,7 @@ max-width: 500px;
                                 </ul>
                             </div>
                         </div>
+                        {% endif %}
                     </div>
                 </div>
                 {% empty %}

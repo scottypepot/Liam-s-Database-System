@@ -7,5 +7,8 @@ class Feedback(models.Model):
     comment = models.TextField()
     timestamp = models.DateTimeField(default=timezone.now)
 
+    class Meta:
+        ordering = ['-timestamp']  # Default ordering by timestamp descending
+
     def __str__(self):
         return f"{self.user.username} - {self.timestamp}"
