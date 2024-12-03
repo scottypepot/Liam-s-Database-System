@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from .models import Feedback
 from django.utils.timezone import now, localtime
 from datetime import timedelta
+from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 
 @login_required
@@ -33,11 +34,12 @@ def add_feedback(request):
 def delete_feedback(request, id):
     feedback = get_object_or_404(Feedback, id=id)
 
-    if feedback.user != request.user:
-        return redirect('feedback_list') 
-
-    if request.method == 'POST':
-        feedback.delete()
+    # Allow users to delete their own feedback and admins to delete any feedback
+    if not (request.user == feedback.user or request.user.is_staff):
+        messages.error(request, "You are not allowed to delete this feedback.")
         return redirect('feedback_list')
 
-    return render(request, 'delete_feedback_confirm.html', {'feedback': feedback})
+    # Directly delete feedback on POST request
+    feedback.delete()
+    messages.success(request, "Feedback deleted successfully.")
+    return redirect('feedback_list')

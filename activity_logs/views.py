@@ -4,11 +4,12 @@ from django.utils import timezone
 from datetime import timedelta, date  # Import `date` here
 from django.contrib.auth.decorators import login_required
 from django.http import Http404
+from django.contrib import messages
 
 @login_required
 def activity_list(request):
     # Filter activities for all users, segmented by date
-    activities = Activity.objects.filter(user=request.user)
+    activities = Activity.objects.all()
     today_activities = Activity.objects.filter(timestamp__date=date.today()).order_by('-timestamp')
     yesterday_activities = Activity.objects.filter(timestamp__date=date.today() - timedelta(days=1)).order_by('-timestamp')
     older_activities = Activity.objects.filter(timestamp__date__lt=date.today() - timedelta(days=1)).order_by('-timestamp')
@@ -41,23 +42,25 @@ def add_activity(request):
     return render(request, 'add_activity.html')
 
 @login_required
-def update_activity(request, pk):
-    activity = get_object_or_404(Activity, id=pk, user=request.user)  # Ensure only the user can update their activity
-    if request.method == "POST":
-        message = request.POST.get("message")
-        if message:
-            activity.message = message
-            activity.save()
-            return redirect("activity_list")  # Redirect to the activity list page after updating
-    return redirect("activity_list")
+def update_activity(request, id):
+    activity = get_object_or_404(Activity, id=id)
+
+    if request.method == 'POST':
+        message = request.POST.get('message')
+        activity.message = message
+        activity.save()
+        return redirect('activity_list')  # Replace with your activity list URL name
+    
+    return redirect('activity_list')  # Optional fallback
 
 @login_required
 def delete_activity(request, id):
     activity = get_object_or_404(Activity, id=id)
 
     # Admins and users can delete their own activity, admins can delete any activity
-    if request.user != activity.user and not request.user.is_staff:
-        raise Http404("You are not allowed to delete this activity.")
+    if not (request.user == activity.user or request.user.is_staff):
+        messages.error(request, "You are not allowed to delete this activity.")
+        return redirect('activity_list')
 
     if request.method == 'POST':
         activity.delete()

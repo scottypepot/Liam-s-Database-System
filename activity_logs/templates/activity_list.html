@@ -329,7 +329,6 @@
     cursor: pointer;
 }
 
-
 .modal-toggle:checked + .modal {
     display: block; /* Show the modal when the checkbox is checked */
 }
@@ -363,6 +362,24 @@ input[type="text"] {
 .current-user-activity {
     color: #FFFAE5; 
 }
+.dropdown-menu li button,
+.dropdown-menu li label {
+    background: none;
+    border: none;
+    font-size: 14px;
+    color: #333;
+    cursor: pointer;
+    width: 100%;
+    text-align: left;
+    padding: 5px 15px;
+    box-sizing: border-box;
+}
+
+.dropdown-menu li button:hover,
+.dropdown-menu li label:hover {
+    background-color: #f0f0f0;
+}
+
 </style>
 <body>
     <div class="container">
@@ -428,7 +445,7 @@ input[type="text"] {
             </div>
 
             {% for activity in activities %}
-            <!-- Update Activity Modal-->
+            <!-- Update Activity Modal -->
             <input type="checkbox" id="updateModalToggle-{{ activity.id }}" class="modal-toggle">
             <div id="updateModal-{{ activity.id }}" class="modal">
                 <div class="modal-content">
@@ -441,13 +458,12 @@ input[type="text"] {
                             <input type="text" id="message" name="message" value="{{ activity.message }}" required>
                         </div>
                         <div>
-                            <button type="submit" class="submit">Update Activity</button>
+                            <button type="submit" class="submit">Save Changes</button>
                         </div>
                     </form>
                 </div>
             </div>
-            {% endfor %}
-
+        {% endfor %}
             <div class="activity-log">
                 <!-- Today's Activities -->
                 <h2 class="section-title">Today</h2>
@@ -471,28 +487,29 @@ input[type="text"] {
                     </div>
                     <div class="activity-actions">
                         <span class="timestamp">{{ activity.timestamp|date:"H:i A" }}</span>
-                        {% if activity.user == request.user %}
-                        <div class="dropdown">
-                            <input type="checkbox" id="dropdown-{{ activity.id }}" class="dropdown-checkbox">
-                            <label for="dropdown-{{ activity.id }}" class="more-options">...</label>
-                            <div class="dropdown-menu">
-                                <ul>
-                                    <li>
-                                        <form action="{% url 'delete_activity' activity.id %}" method="post">
-                                            {% csrf_token %}
-                                            <button type="submit">Delete</button>
-                                        </form>
-                                    </li>
-                                    <li>
-                                        <!-- Update Button now opens the modal -->
-                                        <label for="updateModalToggle-{{ activity.id }}">
-                                            <button type="button">Update</button>
-                                        </label>                                        
-                                    </li>
-                                </ul>
+                        <div class="activity-actions">
+                            <span class="timestamp">{{ activity.timestamp|date:"H:i A" }}</span>
+                            {% if user.is_staff or activity.user == request.user %}
+                            <div class="dropdown">
+                                <!-- Hide checkbox but it triggers the dropdown visibility -->
+                                <input type="checkbox" id="dropdown-{{ activity.id }}" class="dropdown-checkbox">
+                                <label for="dropdown-{{ activity.id }}" class="more-options">...</label>
+                                <div class="dropdown-menu">
+                                    <ul>
+                                        <li>
+                                            <form action="{% url 'delete_activity' activity.id %}" method="post">
+                                                {% csrf_token %}
+                                                <button type="submit">Delete</button>
+                                            </form>
+                                        </li>
+                                        <li>
+                                            <label for="updateModalToggle-{{ activity.id }}" style="display: block; width: 100%;">Update</label>
+                                        </li>
+                                    </ul>
+                                </div>
                             </div>
-                        </div>
-                        {% endif %}
+                            {% endif %}
+                        </div>                        
                     </div>
                 </div>
             {% endfor %}
@@ -522,6 +539,7 @@ input[type="text"] {
                             </div>
                             <div class="activity-actions">
                                 <span class="timestamp">{{ activity.timestamp|date:"F j, Y" }} at {{ activity.timestamp|date:"H:i A" }}</span>
+                                {% if user.is_staff or activity.user == request.user %} 
                                 <div class="dropdown">
                                     <input type="checkbox" id="dropdown-{{ activity.id }}" class="dropdown-checkbox">
                                     <label for="dropdown-{{ activity.id }}" class="more-options">...</label>
@@ -534,14 +552,12 @@ input[type="text"] {
                                                 </form>
                                             </li>
                                             <li>
-                                                <!-- Update Button now opens the modal -->
-                                                <label for="updateModalToggle-{{ activity.id }}">
-                                                    <button type="button">Update</button>
-                                                </label>                                              
+                                                <label for="updateModalToggle-{{ activity.id }}" style="display: block; width: 100%;">Update</label>
                                             </li>
                                         </ul>
                                     </div>
                                 </div>
+                        {% endif %}
                             </div>
                         </div>
                     {% endfor %}
@@ -571,6 +587,7 @@ input[type="text"] {
                             </div>
                             <div class="activity-actions">
                                 <span class="timestamp">{{ activity.timestamp|date:"F j, Y" }} at {{ activity.timestamp|date:"H:i A" }}</span>
+                                {% if user.is_staff or activity.user == request.user %}
                                 <div class="dropdown">
                                     <input type="checkbox" id="dropdown-{{ activity.id }}" class="dropdown-checkbox">
                                     <label for="dropdown-{{ activity.id }}" class="more-options">...</label>
@@ -583,14 +600,12 @@ input[type="text"] {
                                                 </form>
                                             </li>
                                             <li>
-                                                <!-- Update Button now opens the modal -->
-                                                <label for="updateModalToggle-{{ activity.id }}">
-                                                    <button type="button">Update</button>
-                                                </label>                                                
+                                                <label for="updateModalToggle-{{ activity.id }}" style="display: block; width: 100%;">Update</label>
                                             </li>
                                         </ul>
                                     </div>
                                 </div>
+                                {% endif %}
                             </div>
                         </div>
                     {% endfor %}

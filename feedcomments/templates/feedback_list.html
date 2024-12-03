@@ -420,7 +420,7 @@ input[type="text"] {
                     <div class="feedback-actions">
                         <span class="timestamp">{{ feedback.timestamp|date:"H:i A" }}</span>
                 
-                        {% if feedback.user == request.user %}
+                        {% if user.is_staff or feedback.user == request.user %}
                         <div class="dropdown">
                             <input type="checkbox" id="dropdown-{{ feedback.id }}" class="dropdown-checkbox">
                             <label for="dropdown-{{ feedback.id }}" class="more-options">...</label>
@@ -467,7 +467,7 @@ input[type="text"] {
                     <div class="feedback-actions">
                         <span class="timestamp">{{ feedback.timestamp|date:"F j, Y" }} at {{ feedback.timestamp|date:"H:i A" }}</span>
                 
-                        {% if feedback.user == request.user %}
+                        {% if user.is_staff or feedback.user == request.user %}
                         <div class="dropdown">
                             <input type="checkbox" id="dropdown-{{ feedback.id }}" class="dropdown-checkbox">
                             <label for="dropdown-{{ feedback.id }}" class="more-options">...</label>
@@ -514,7 +514,7 @@ input[type="text"] {
                     <div class="feedback-actions">
                         <span class="timestamp">{{ feedback.timestamp|date:"F j, Y" }} at {{ feedback.timestamp|date:"H:i A" }}</span>
                 
-                        {% if feedback.user == request.user %}
+                        {% if user.is_staff or feedback.user == request.user %}
                         <div class="dropdown">
                             <input type="checkbox" id="dropdown-{{ feedback.id }}" class="dropdown-checkbox">
                             <label for="dropdown-{{ feedback.id }}" class="more-options">...</label>
