@@ -522,6 +522,7 @@ input[type="text"] {
                             </div>
                             <div class="activity-actions">
                                 <span class="timestamp">{{ activity.timestamp|date:"F j, Y" }} at {{ activity.timestamp|date:"H:i A" }}</span>
+                                {% if activity.user == request.user %}
                                 <div class="dropdown">
                                     <input type="checkbox" id="dropdown-{{ activity.id }}" class="dropdown-checkbox">
                                     <label for="dropdown-{{ activity.id }}" class="more-options">...</label>
@@ -537,11 +538,12 @@ input[type="text"] {
                                                 <!-- Update Button now opens the modal -->
                                                 <label for="updateModalToggle-{{ activity.id }}">
                                                     <button type="button">Update</button>
-                                                </label>                                              
+                                                </label>                                        
                                             </li>
                                         </ul>
                                     </div>
                                 </div>
+                                {% endif %}
                             </div>
                         </div>
                     {% endfor %}
@@ -571,6 +573,7 @@ input[type="text"] {
                             </div>
                             <div class="activity-actions">
                                 <span class="timestamp">{{ activity.timestamp|date:"F j, Y" }} at {{ activity.timestamp|date:"H:i A" }}</span>
+                                {% if activity.user == request.user %}
                                 <div class="dropdown">
                                     <input type="checkbox" id="dropdown-{{ activity.id }}" class="dropdown-checkbox">
                                     <label for="dropdown-{{ activity.id }}" class="more-options">...</label>
@@ -586,11 +589,12 @@ input[type="text"] {
                                                 <!-- Update Button now opens the modal -->
                                                 <label for="updateModalToggle-{{ activity.id }}">
                                                     <button type="button">Update</button>
-                                                </label>                                                
+                                                </label>                                        
                                             </li>
                                         </ul>
                                     </div>
                                 </div>
+                                {% endif %}
                             </div>
                         </div>
                     {% endfor %}
