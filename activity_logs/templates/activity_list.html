@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Activity Log</title>
+    <title>Liams Activity Log System</title>
     {% load static %}
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
 </head>
@@ -109,6 +109,11 @@
     border-radius: 10px;
     padding: 10px 20px;
     text-decoration: none;
+    cursor: pointer;
+}
+
+.add-button:hover {
+    background: #FF9C87;
 }
 
 .activity-log {
@@ -155,7 +160,7 @@
 }
 
 .activity-user {
-    font-size: 14px;
+    font-size: 18px;
     margin: 0;
     font-weight: bold;
     color: #333;
@@ -267,7 +272,7 @@
 .activity-actions:hover .dropdown-menu {
     display: block;
 }
-/* Adjustments for 'Write something here...' message box */
+
 .activity-log .activity-item:first-of-type {
     background-color: #FBFF00;
     border-radius: 10px;
@@ -281,6 +286,98 @@
     background: #f0f0f0;
     border-radius: 10px;
     min-width: 300px;
+}
+.modal-toggle {
+    display: none; /* Hide the checkbox */
+}
+
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.5); /* Black background with opacity */
+    padding-top: 60px;
+}
+
+.modal-content {
+    background-color: #fefefe;
+    margin: 5% auto;
+    padding: 35px;
+    border: 1px solid #888;
+    width: 90%;
+    max-width: 700px;
+    position: relative;
+    height: 210px;
+    border-radius: 6px;
+}
+
+.close-btn {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close-btn:hover,
+.close-btn:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.modal-toggle:checked + .modal {
+    display: block; /* Show the modal when the checkbox is checked */
+}
+.submit {
+    position: absolute;
+    bottom: 5px;
+    right: 20px;
+    background: #FFBCB4;
+    color: #BB2517;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-size: 15px;
+    transition: background 0.3s ease;
+    margin-bottom: 9px;
+}
+.submit:hover {
+    background: #FF9C87;
+}
+input[type="text"] {
+    width: 100%;
+    padding: 10px;
+    height: 60px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+    resize: none;
+    margin-top: 9px;
+}
+.current-user-activity {
+    color: #FFFAE5; 
+}
+.dropdown-menu li button,
+.dropdown-menu li label {
+    background: none;
+    border: none;
+    font-size: 14px;
+    color: #333;
+    cursor: pointer;
+    width: 100%;
+    text-align: left;
+    padding: 5px 15px;
+    box-sizing: border-box;
+}
+
+.dropdown-menu li button:hover,
+.dropdown-menu li label:hover {
+    background-color: #f0f0f0;
 }
 
 </style>
@@ -326,47 +423,93 @@
         <div class="main-content">
             <div class="header">
                 <h1>Activity</h1>
-                <a href="{% url 'add_activity' %}" class="add-button">Add Activity</a>
+                <label for="activityModalToggle" class="add-button">Add Activity</label>
             </div>
+            <!-- Add Activity Modal-->
+            <input type="checkbox" id="activityModalToggle" class="modal-toggle">
+            <div id="activityModal" class="modal">
+                <div class="modal-content">
+                    <label for="activityModalToggle" class="close-btn">&times;</label>
+                    <h2>Add Activity</h2>
+                    <form action="{% url 'add_activity' %}" method="post">
+                        {% csrf_token %}
+                        <div>
+                            <label for="message">Activity Message:</label>
+                            <input type="text" id="message" name="message" placeholder="Add something here..." required />
+                        </div>
+                        <div>
+                            <button class="submit">Add Activity</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            {% for activity in activities %}
+            <!-- Update Activity Modal -->
+            <input type="checkbox" id="updateModalToggle-{{ activity.id }}" class="modal-toggle">
+            <div id="updateModal-{{ activity.id }}" class="modal">
+                <div class="modal-content">
+                    <label for="updateModalToggle-{{ activity.id }}" class="close-btn">&times;</label>
+                    <h2>Update Activity</h2>
+                    <form action="{% url 'update_activity' activity.id %}" method="post">
+                        {% csrf_token %}
+                        <div>
+                            <label for="message">Activity Message:</label>
+                            <input type="text" id="message" name="message" value="{{ activity.message }}" required>
+                        </div>
+                        <div>
+                            <button type="submit" class="submit">Save Changes</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        {% endfor %}
             <div class="activity-log">
                 <!-- Today's Activities -->
                 <h2 class="section-title">Today</h2>
                 <div class="divider"></div>
                 {% if today_activities %}
                 {% for activity in today_activities %}
-                <div class="activity-item">
+                <div class="activity-item {% if activity.user == request.user %}current-user-activity{% endif %}">
                     <div class="activity-details">
                         <img src="{% static 'images/user_icon.png' %}" alt="Profile Image">
                         <div class="activity-content">
                             <p class="activity-user">
-                                <strong>{{ activity.user.first_name }} {{ activity.user.last_name }}</strong>
-                            </p>
+                                <strong>
+                                    {{ activity.user.first_name }} {{ activity.user.last_name }}
+                                    {% if activity.user == request.user %}
+                                        (You)
+                                    {% endif %}
+                                </strong>
+                            </p>                            
                             <p class="message">{{ activity.message }}</p>
                         </div>
                     </div>
                     <div class="activity-actions">
                         <span class="timestamp">{{ activity.timestamp|date:"H:i A" }}</span>
-                        {% if activity.user == request.user %}
-                        <div class="dropdown">
-                            <input type="checkbox" id="dropdown-{{ activity.id }}" class="dropdown-checkbox">
-                            <label for="dropdown-{{ activity.id }}" class="more-options">...</label>
-                            <div class="dropdown-menu">
-                                <ul>
-                                    <li>
-                                        <form action="{% url 'delete_activity' activity.id %}" method="post">
-                                            {% csrf_token %}
-                                            <button type="submit">Delete</button>
-                                        </form>
-                                    </li>
-                                    <li>
-                                        <form action="{% url 'update_activity' activity.id %}" method="get">
-                                            <button type="submit">Update</button>
-                                        </form>
-                                    </li>
-                                </ul>
+                        <div class="activity-actions">
+                            <span class="timestamp">{{ activity.timestamp|date:"H:i A" }}</span>
+                            {% if user.is_staff or activity.user == request.user %}
+                            <div class="dropdown">
+                                <!-- Hide checkbox but it triggers the dropdown visibility -->
+                                <input type="checkbox" id="dropdown-{{ activity.id }}" class="dropdown-checkbox">
+                                <label for="dropdown-{{ activity.id }}" class="more-options">...</label>
+                                <div class="dropdown-menu">
+                                    <ul>
+                                        <li>
+                                            <form action="{% url 'delete_activity' activity.id %}" method="post">
+                                                {% csrf_token %}
+                                                <button type="submit">Delete</button>
+                                            </form>
+                                        </li>
+                                        <li>
+                                            <label for="updateModalToggle-{{ activity.id }}" style="display: block; width: 100%;">Update</label>
+                                        </li>
+                                    </ul>
+                                </div>
                             </div>
-                        </div>
-                        {% endif %}
+                            {% endif %}
+                        </div>                        
                     </div>
                 </div>
             {% endfor %}
@@ -384,13 +527,19 @@
                                 <img src="{% static 'images/user_icon.png' %}" alt="Profile Image">
                                 <div class="activity-content">
                                     <p class="activity-user">
-                                        <strong>{{ activity.user.first_name }} {{ activity.user.last_name }}</strong>
+                                        <strong>
+                                            {{ activity.user.first_name }} {{ activity.user.last_name }}
+                                            {% if activity.user == request.user %}
+                                                (You)
+                                            {% endif %}
+                                        </strong>
                                     </p>
                                     <p class="message">{{ activity.message }}</p>
                                 </div>
                             </div>
                             <div class="activity-actions">
                                 <span class="timestamp">{{ activity.timestamp|date:"F j, Y" }} at {{ activity.timestamp|date:"H:i A" }}</span>
+                                {% if user.is_staff or activity.user == request.user %} 
                                 <div class="dropdown">
                                     <input type="checkbox" id="dropdown-{{ activity.id }}" class="dropdown-checkbox">
                                     <label for="dropdown-{{ activity.id }}" class="more-options">...</label>
@@ -403,13 +552,12 @@
                                                 </form>
                                             </li>
                                             <li>
-                                                <form action="{% url 'update_activity' activity.id %}" method="get">
-                                                    <button type="submit">Update</button>
-                                                </form>
+                                                <label for="updateModalToggle-{{ activity.id }}" style="display: block; width: 100%;">Update</label>
                                             </li>
                                         </ul>
                                     </div>
                                 </div>
+                        {% endif %}
                             </div>
                         </div>
                     {% endfor %}
@@ -427,13 +575,19 @@
                                 <img src="{% static 'images/user_icon.png' %}" alt="Profile Image">
                                 <div class="activity-content">
                                     <p class="activity-user">
-                                        <strong>{{ activity.user.first_name }} {{ activity.user.last_name }}</strong>
+                                        <strong>
+                                            {{ activity.user.first_name }} {{ activity.user.last_name }}
+                                            {% if activity.user == request.user %}
+                                                (You)
+                                            {% endif %}
+                                        </strong>
                                     </p>
                                     <p class="message">{{ activity.message }}</p>
                                 </div>
                             </div>
                             <div class="activity-actions">
                                 <span class="timestamp">{{ activity.timestamp|date:"F j, Y" }} at {{ activity.timestamp|date:"H:i A" }}</span>
+                                {% if user.is_staff or activity.user == request.user %}
                                 <div class="dropdown">
                                     <input type="checkbox" id="dropdown-{{ activity.id }}" class="dropdown-checkbox">
                                     <label for="dropdown-{{ activity.id }}" class="more-options">...</label>
@@ -446,13 +600,12 @@
                                                 </form>
                                             </li>
                                             <li>
-                                                <form action="{% url 'update_activity' activity.id %}" method="get">
-                                                    <button type="submit">Update</button>
-                                                </form>
+                                                <label for="updateModalToggle-{{ activity.id }}" style="display: block; width: 100%;">Update</label>
                                             </li>
                                         </ul>
                                     </div>
                                 </div>
+                                {% endif %}
                             </div>
                         </div>
                     {% endfor %}

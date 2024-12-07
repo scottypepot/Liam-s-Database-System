@@ -2,77 +2,238 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Update Branch</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:400,600,700,800&display=swap">
+    <title>Liams Activity Log System</title>
     <style>
         body {
+            margin: 0;
             font-family: 'Inter', sans-serif;
             background: white;
-            margin: 0;
-            padding: 0;
         }
         .container {
             display: flex;
+        }
+        .sidebar {
+            width: 280px;
+            height: 100vh;
+            background: #580801;
+            padding: 20px 0;
+            position: fixed;
+            display: flex;
             flex-direction: column;
+        }
+        .brand {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 10px;
+        }
+        .brand h1 {
+            color: #FBFF00;
+            font-size: 26px;
+        }
+        .menu {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            flex-grow: 0.6;
+        }
+        .menu-item {
+            color: white;
+            font-size: 16px;
+            font-weight: 400;
+            padding: 23px;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            text-decoration: none;
+        }
+        .menu-item img {
+            margin-right: 15px;
+            width: 33px;
+            height: 33px;
+        }
+        .menu-item:hover {
+            background: #6c0a0a;
+        }
+        .main {
+            margin-left: 280px;
+            flex: 1;
             padding: 20px;
         }
         .header {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
             margin-bottom: 30px;
         }
         .header h1 {
             font-size: 40px;
             font-weight: 400;
         }
-        .form-group {
-            margin-bottom: 20px;
+        .form-container {
+            max-width: 600px;
+            margin: auto;
+            background: #FCE3DF;
+            padding: 60px 50px;
+            border-radius: 15px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            position: relative; 
         }
+        .form-group {
+            margin-bottom: 40px;
+            margin-top: -30px;
+        }     
         label {
             font-weight: bold;
             display: block;
-        }
-        input, textarea {
             width: 100%;
+            margin-bottom: 5px;
+            font-size: 18px;
+        }
+        input[type="text"],
+        input[type="file"],
+        textarea {
+            background: #FCE3DF;
+            width: 577px;
             padding: 10px;
+            border: 1px solid #000;
+            border-radius: 8px;
+            font-size: 14px;
             margin-top: 5px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
+            margin-bottom: 0;
         }
         .submit-btn {
-            background-color: #580801;
-            color: white;
-            padding: 10px 20px;
+            display: block;
+            background-color: #FFBCB4;
+            color: #BB2517;
+            padding: 12px 25px;
+            font-size: 16px;
+            text-align: center;
+            border: none;
             border-radius: 8px;
             cursor: pointer;
+            position: absolute;
+            transition: background 0.3s ease;
+            bottom: 20px;
+            right: 50px;
         }
         .submit-btn:hover {
-            background-color: #6c0a0a;
+            background-color: #FCE3DF;
+        }
+        .image-preview {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+        .image-preview img {
+            border-radius: 8px;
+            max-width: 300px;
+            margin-bottom: 5px;
+        }
+        .image-preview p {
+            font-size: 14px;
+        }
+        .logout-btn-sidebar {
+            color: white;
+            font-size: 16px;
+            font-weight: 400;
+            padding: 50px 23px;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            text-decoration: none;
+            margin-top: auto;
+        }    
+        .logout-btn-sidebar:hover {
+            background: #6c0a0a;
+        }
+        .back-btn {
+            display: inline-block;
+            text-decoration: none;
+            color: inherit;
+            margin-bottom: 5px; 
         }
     </style>
 </head>
+
+{% load static %}
 <body>
     <div class="container">
-        <div class="header">
-            <h1>Update Branch: {{ branch.name }}</h1>
-        </div>
-        <form method="POST" enctype="multipart/form-data">
-            {% csrf_token %}
-            <div class="form-group">
-                <label for="id_name">Branch Name</label>
-                {{ form.name }}
+        <aside class="sidebar">
+            <div class="brand">
+                <img src="{% static 'images/liams_logo.png' %}" alt="Brand Logo">
+                <h1>Liams</h1>
             </div>
-            <div class="form-group">
-                <label for="id_location">Location</label>
-                {{ form.location }}
-            </div>
-            <div class="form-group">
-                <label for="id_image">Image</label>
-                {{ form.image }}
-                {% if branch.image %}
-                    <p>Current Image:</p>
-                    <img src="{{ branch.image.url }}" alt="Current Image" width="200px">
+            <nav class="menu">
+                <a href="{% url 'dashboard' %}" class="menu-item">
+                    <img src="{% static 'images/dashboard.png' %}" alt="Dashboard Icon">
+                    Dashboard
+                </a>
+                <a href="{% url 'activity_list' %}" class="menu-item">
+                    <img src="{% static 'images/activity_log.png' %}" alt="Activity Log Icon">
+                    Activity Log
+                </a>
+                <a href="{% url 'feedback_list' %}" class="menu-item">
+                    <img src="{% static 'images/feedback_comment.png' %}" alt="Feedback Icon">
+                    Feedback and Comment
+                </a>
+                <a href="{% url 'leave_list' %}" class="menu-item">
+                    <img src="{% static 'images/leave.png' %}" alt="Leave Icon">
+                    Leave
+                </a>
+                {% if user.is_staff %}
+                    <a href="{% url 'branch_list' %}" class="menu-item">
+                        <img src="{% static 'images/branch.png' %}" alt="Branch Icon">
+                        Branch
+                    </a>
                 {% endif %}
+            </nav>
+            <a href="{% url 'logout' %}" class="logout-btn-sidebar">
+                <img src="{% static 'images/logout.png' %}" alt="Logout Icon"> Logout
+            </a>
+        </aside>
+
+        <div class="main">
+            <div class="header">
+                <a href="{% url 'branch_list' %}" class="back-btn">
+                    <img src="{% static 'images/back.png' %}" alt="Back" style="width: 40px; height: 40px; margin-right: 10px;">
+                </a>
+                <h1>Update Branch: {{ branch.name }}</h1>
             </div>
-            <button type="submit" class="submit-btn">Update Branch</button>
-        </form>
+            <div class="form-container">
+                <form method="POST" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label for="id_name">Branch Name</label>
+                        <input type="text" id="id_name" name="name" value="{{ branch.name }}" class="form-control">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="id_location">Location</label>
+                        <input type="text" id="id_location" name="location" value="{{ branch.location }}" class="form-control">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="id_image">Image</label>
+                        <div class="image-preview">
+                            {% if branch.image %}
+                                <img src="{{ branch.image.url }}" alt="Current Image">
+                                <label class="d-flex align-items-center">
+                                    <input type="checkbox" name="image-clear" id="image-clear" style="margin-right: 5px;">
+                                    Clear Current Image
+                                </label>
+                            {% endif %}
+                        </div>
+                        <input type="file" id="id_image" name="image" class="form-control">
+                    </div>
+                    <button type="submit" class="submit-btn">Update Branch</button>
+                </form>
+            </div>
+        </div>
     </div>
 </body>
 </html>

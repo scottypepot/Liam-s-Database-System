@@ -4,19 +4,23 @@ from django.utils import timezone
 from datetime import timedelta, date  # Import `date` here
 from django.contrib.auth.decorators import login_required
 from django.http import Http404
+from django.contrib import messages
 
 @login_required
 def activity_list(request):
-    # Filter activities for the logged-in user
-    today_activities = Activity.objects.filter(user=request.user, timestamp__date=date.today())
-    yesterday_activities = Activity.objects.filter(user=request.user, timestamp__date=date.today() - timedelta(days=1))
-    older_activities = Activity.objects.filter(user=request.user, timestamp__date__lt=date.today() - timedelta(days=1))
+    # Filter activities for all users, segmented by date
+    activities = Activity.objects.all()
+    today_activities = Activity.objects.filter(timestamp__date=date.today()).order_by('-timestamp')
+    yesterday_activities = Activity.objects.filter(timestamp__date=date.today() - timedelta(days=1)).order_by('-timestamp')
+    older_activities = Activity.objects.filter(timestamp__date__lt=date.today() - timedelta(days=1)).order_by('-timestamp')
 
     return render(request, 'activity_list.html', {
+        'activities': activities,
         'today_activities': today_activities,
         'yesterday_activities': yesterday_activities,
-        'older_activities': older_activities
+        'older_activities': older_activities,
     })
+
 
 @login_required
 def add_activity(request):
@@ -35,40 +39,28 @@ def add_activity(request):
         # Optionally, you can also add a success message or redirect to another page
         return redirect('activity_list') 
 
-    # For GET requests, render the page to add activity (no error)
     return render(request, 'add_activity.html')
 
 @login_required
 def update_activity(request, id):
     activity = get_object_or_404(Activity, id=id)
 
-    # Admins and users can update their own activity, admins can update any activity
-    if request.user != activity.user and not request.user.is_staff:
-        raise Http404("You are not allowed to edit this activity.")
-
     if request.method == 'POST':
         message = request.POST.get('message')
-        
-        # Ensure the message is provided
-        if not message:
-            return render(request, 'update_activity.html', {
-                'activity': activity,
-                'error': 'Message cannot be empty.'
-            })
-
         activity.message = message
         activity.save()
-        return redirect('activity_list')
-
-    return render(request, 'update_activity.html', {'activity': activity})
+        return redirect('activity_list')  # Replace with your activity list URL name
+    
+    return redirect('activity_list')  # Optional fallback
 
 @login_required
 def delete_activity(request, id):
     activity = get_object_or_404(Activity, id=id)
 
     # Admins and users can delete their own activity, admins can delete any activity
-    if request.user != activity.user and not request.user.is_staff:
-        raise Http404("You are not allowed to delete this activity.")
+    if not (request.user == activity.user or request.user.is_staff):
+        messages.error(request, "You are not allowed to delete this activity.")
+        return redirect('activity_list')
 
     if request.method == 'POST':
         activity.delete()

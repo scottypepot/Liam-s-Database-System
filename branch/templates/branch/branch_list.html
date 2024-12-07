@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:400,600,700,800&display=swap">
-    <title>Labangon Branch</title>
+    <title>Liams Activity Log System</title>
     <style>
         body {
             margin: 0;
@@ -22,26 +22,22 @@
             display: flex;
             flex-direction: column;
         }
-
         .brand {
             display: flex;
             align-items: center;
             justify-content: center;
             margin-bottom: 10px;  
         }
-
         .brand h1 {
             color: #FBFF00;  
             font-size: 26px;
         }
-
         .menu {
             display: flex;
             flex-direction: column;
             justify-content: center;  
             flex-grow: .6; 
         }
-
         .menu-item {
             color: white;
             font-size: 16px;
@@ -53,23 +49,19 @@
             cursor: pointer;
             text-decoration: none;
         }
-
         .menu-item img {
             margin-right: 15px;
             width: 33px;
             height: 33px;
         }
-
         .menu-item:hover {
             background: #6c0a0a;
         }
-
         .main {
             margin-left: 280px;
             flex: 1;
             padding: 20px;
         }
-
         .header {
             display: flex;
             justify-content: space-between;
@@ -80,7 +72,6 @@
             font-size: 40px;
             font-weight: 400;
         }
-
         .add-branch-btn {
             background-color: #580801;
             color: white;
@@ -91,56 +82,60 @@
             text-decoration: none;
             cursor: pointer;
         }
-
         .add-branch-btn:hover {
             background-color: #6c0a0a;
         }
-
         .cards {
             display: flex;
-            justify-content: space-between;
-            gap: 20px;
             flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+            align-items: center;
         }
         .card {
             flex: 1;
             background: #FCE3DF;
             border-radius: 15px;
-            padding: 20px;
+            padding: 30px;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            min-width: 300px;
-            max-width: 350px;
-        }
-        .card-header {
-            background: #FFBCB4;
-            height: 50px;
-            border-top-left-radius: 15px;
-            border-top-right-radius: 15px;
+            min-width: 600px;
+            max-width: 750px;
+            position: relative;
         }
         .card-content {
+            display: flex;
+            align-items: center;
+            justify-content: center;
             text-align: center;
-            margin-top: -15px;
+            margin-top: 20px;
         }
         .card-content img {
-            width: 100%;
-            height: 200px; /* Set a fixed height for rectangular shape */
-            object-fit: cover; /* Ensure the image covers the area properly */
+            width: 479px;
+            height: 377px; 
+            object-fit: cover; 
             border-radius: 10px;
             margin-bottom: 15px;
         }
+        .card-content .text {
+            flex: 1;
+            margin-right: 20px;
+            margin-bottom: 15px;
+        }
         .card-content h2 {
-            font-size: 22px;
+            text-align: center;
+            font-size: 30px;
             font-weight: 700;
             color: black;
-            margin-bottom: 5px;
+            margin: 5px 0;
         }
         .card-content p {
             font-size: 14px;
             color: #736C6C;
-            margin-bottom: 5px;
+            margin: 5px 0;
         }
         .card-content h3 {
-            font-size: 16px;
+            text-align: center;
+            font-size: 24px;
             font-weight: 600;
             margin: 10px 0 5px;
         }
@@ -148,45 +143,56 @@
             font-size: 16px;
             font-weight: 700;
         }
-        .status.pending {
-            color: #1100FF;
-        }
-        .status.declined {
-            color: #FF0000;
-        }
-        .status.approved {
-            color: #00FF00;
-        }
-        .logout-btn {
-            margin-top: 20px;
-            background: #580801;
+        .logout-btn-sidebar {
             color: white;
-            padding: 10px 15px;
-            border: none;
-            cursor: pointer;
             font-size: 16px;
-            border-radius: 5px;
+            font-weight: 400;
+            padding: 50px 23px;
             text-align: center;
-        }
-
-        .logout-btn:hover {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            text-decoration: none;
+            margin-top: auto;
+        }    
+        .logout-btn-sidebar:hover {
             background: #6c0a0a;
         }
-        .delete-btn {
-    background-color: red;
-    color: white;
-    font-weight: bold;
-    padding: 5px 10px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-.delete-btn:hover {
-    background-color: darkred;
-}
-
-
+        .dropdown {
+            position: absolute;
+            top: -5px;
+            right: 30px;
+            cursor: pointer;
+            font-size: 32px;
+        }
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            top: 30px;
+            right: 0;
+            background-color: #ffff;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            min-width: 150px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            z-index: 10;
+        }
+        .dropdown-content a {
+            color: black;
+            padding: 10px;
+            display: block;
+            text-decoration: none;
+            font-size: 14px;
+            border-bottom: 1px solid #eee;
+        }
+        .dropdown-content a:hover {
+            border-radius: px;
+            background-color: #FFBCB4;
+            color: white;
+        }
+        .show-dropdown {
+            display: block;
+        }
     </style>
 </head>
 
@@ -222,38 +228,53 @@
                     </a>
                 {% endif %}
             </nav>
+            <a href="{% url 'logout' %}" class="logout-btn-sidebar">
+                <img src="{% static 'images/logout.png' %}" alt="Logout Icon"> Logout
+            </a>
         </aside>
 
         <div class="main">
             <div class="header">
                 <h1>Branches</h1>
-                <!-- Add Branch Button - Only visible to admin or superadmin -->
                 {% if user.is_staff %}
                     <a href="{% url 'add_branch' %}" class="add-branch-btn">Add Branch</a>
                 {% endif %}
-
             </div>
-            <!-- Display Branch List -->
+
             <div class="cards">
-                    {% for branch in branches %}
-                    <div class="card">
-                        <div class="card-header"></div>
-                        <div class="card-content">
+                {% for branch in branches %}
+                <div class="card">
+                    <div class="card-content">
+                        <div class="text">
                             <h2>{{ branch.name }}</h2>
-                            <p>{{ branch.location }}</p>
+                            <h3>{{ branch.location }}</h3>
                             <p>{{ branch.created_at }}</p>
-                            {% if branch.image %}
-                                <img src="{{ branch.image.url }}" alt="{{ branch.name }}">
-                            {% else %}
-                                <p>No image available</p>
-                            {% endif %}
-                            <a href="{% url 'update_branch' branch.id %}" class="update-btn">Update Branch</a>
-                            <a href="{%url 'delete_branch' branch.id %}" class ="delete-branch-btn">Delete Branch</a>
+                        </div>
+                        {% if branch.image %}
+                            <img src="{{ branch.image.url }}" alt="{{ branch.name }}">
+                        {% else %}
+                            <p>No image available</p>
+                        {% endif %}
+
+                        <div class="dropdown" onclick="toggleDropdown(event)">
+                            <span>...</span>
+                            <div class="dropdown-content">
+                                <a href="{% url 'update_branch' branch.id %}">Update Branch</a>
+                                <a href="{% url 'delete_branch' branch.id %}">Delete Branch</a>
+                            </div>
                         </div>
                     </div>
+                </div>
                 {% endfor %}
             </div>
         </div>
     </div>
+
+    <script>
+        function toggleDropdown(event) {
+            const dropdownContent = event.currentTarget.querySelector('.dropdown-content');
+            dropdownContent.classList.toggle('show-dropdown');
+        }
+    </script>
 </body>
 </html>
