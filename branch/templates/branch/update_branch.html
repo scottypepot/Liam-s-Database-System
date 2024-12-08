@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:400,600,700,800&display=swap">
-    <title>Liams Activity Log System</title>
+    <title>Liam's Activity Log System</title>
     <style>
         body {
             margin: 0;
@@ -12,6 +12,7 @@
         }
         .container {
             display: flex;
+            flex-wrap: wrap;
         }
         .sidebar {
             width: 280px;
@@ -21,6 +22,7 @@
             position: fixed;
             display: flex;
             flex-direction: column;
+            box-sizing: border-box;
         }
         .brand {
             display: flex;
@@ -48,6 +50,7 @@
             align-items: center;
             cursor: pointer;
             text-decoration: none;
+            transition: background 0.3s ease;
         }
         .menu-item img {
             margin-right: 15px;
@@ -61,6 +64,7 @@
             margin-left: 280px;
             flex: 1;
             padding: 20px;
+            box-sizing: border-box;
         }
         .header {
             display: flex;
@@ -69,58 +73,60 @@
             margin-bottom: 30px;
         }
         .header h1 {
-            font-size: 40px;
-            font-weight: 400;
+            font-size: 28px;
+            font-weight: 700; /* Made the header bold */
+            margin-bottom: 20px;
         }
         .form-container {
-            max-width: 600px;
+            max-width: 800px;
             margin: auto;
             background: #FCE3DF;
-            padding: 60px 50px;
+            padding: 40px 50px;
             border-radius: 15px;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
             position: relative; 
+            width: 100%;
         }
         .form-group {
-            margin-bottom: 40px;
-            margin-top: -30px;
+            margin-bottom: 25px;
         }     
         label {
             font-weight: bold;
             display: block;
-            width: 100%;
-            margin-bottom: 5px;
+            margin-bottom: 10px;
             font-size: 18px;
         }
         input[type="text"],
         input[type="file"],
         textarea {
             background: #FCE3DF;
-            width: 577px;
-            padding: 10px;
+            width: 100%;
+            padding: 12px;
             border: 1px solid #000;
             border-radius: 8px;
             font-size: 14px;
             margin-top: 5px;
-            margin-bottom: 0;
+            margin-bottom: 10px;
+            box-sizing: border-box;
         }
-        .submit-btn {
-            display: block;
+        .submit-btn,
+        .cancel-btn {
             background-color: #FFBCB4;
             color: #BB2517;
-            padding: 12px 25px;
+            padding: 14px 30px;
             font-size: 16px;
             text-align: center;
             border: none;
             border-radius: 8px;
             cursor: pointer;
-            position: absolute;
             transition: background 0.3s ease;
-            bottom: 20px;
-            right: 50px;
+            max-width: 200px;
+            margin-top: 20px;
+            text-decoration: none;
         }
-        .submit-btn:hover {
-            background-color: #FCE3DF;
+        .submit-btn:hover,
+        .cancel-btn:hover {
+            background:#FF9C87;
         }
         .image-preview {
             display: flex;
@@ -151,11 +157,10 @@
         .logout-btn-sidebar:hover {
             background: #6c0a0a;
         }
-        .back-btn {
-            display: inline-block;
-            text-decoration: none;
-            color: inherit;
-            margin-bottom: 5px; 
+        .buttons-container {
+            display: flex;
+            justify-content: space-between; /* Space out the buttons */
+            margin-top: 20px;
         }
     </style>
 </head>
@@ -199,9 +204,6 @@
 
         <div class="main">
             <div class="header">
-                <a href="{% url 'branch_list' %}" class="back-btn">
-                    <img src="{% static 'images/back.png' %}" alt="Back" style="width: 40px; height: 40px; margin-right: 10px;">
-                </a>
                 <h1>Update Branch: {{ branch.name }}</h1>
             </div>
             <div class="form-container">
@@ -230,7 +232,10 @@
                         </div>
                         <input type="file" id="id_image" name="image" class="form-control">
                     </div>
+                    <div class = "buttons-container">
+                    <a href="{% url 'branch_list' %}" class="cancel-btn">Cancel</a>
                     <button type="submit" class="submit-btn">Update Branch</button>
+                </div>
                 </form>
             </div>
         </div>

@@ -67,23 +67,24 @@
             justify-content: space-between;
             align-items: center;
             margin-bottom: 30px;
+            padding: 20px;
         }
         .header h1 {
-            font-size: 40px;
-            font-weight: 400;
+            font-size: 36px;
+            font-weight: 700;
+            color: black;
         }
         .add-branch-btn {
-            background-color: #580801;
-            color: white;
-            font-size: 16px;
-            font-weight: 600;
+            background: #FFBCB4;
+            color: #BB2517;
+            font-size: 20px;
+            border-radius: 10px;
             padding: 10px 20px;
-            border-radius: 8px;
             text-decoration: none;
             cursor: pointer;
         }
         .add-branch-btn:hover {
-            background-color: #6c0a0a;
+            background: #FF9C87;
         }
         .cards {
             display: flex;
@@ -98,12 +99,12 @@
             border-radius: 15px;
             padding: 30px;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            min-width: 600px;
-            max-width: 750px;
+            max-width: 500px;
             position: relative;
         }
         .card-content {
             display: flex;
+            flex-direction: column;
             align-items: center;
             justify-content: center;
             text-align: center;
@@ -123,10 +124,11 @@
         }
         .card-content h2 {
             text-align: center;
-            font-size: 30px;
-            font-weight: 700;
-            color: black;
+            font-size: 25px;
+            font-weight: bold;
+            color: rgb(66, 3, 3);
             margin: 5px 0;
+            order: 1; /* Centers the name at the top */
         }
         .card-content p {
             font-size: 14px;
@@ -136,8 +138,9 @@
         .card-content h3 {
             text-align: center;
             font-size: 24px;
-            font-weight: 600;
+            font-weight: 500;
             margin: 10px 0 5px;
+            order: 2; /* Keeps the location below the name */
         }
         .status {
             font-size: 16px;
@@ -245,17 +248,16 @@
                 {% for branch in branches %}
                 <div class="card">
                     <div class="card-content">
-                        <div class="text">
-                            <h2>{{ branch.name }}</h2>
-                            <h3>{{ branch.location }}</h3>
-                            <p>{{ branch.created_at }}</p>
-                        </div>
+                        <h2>{{ branch.name }}</h2> <!-- Centered at top -->
+                        <h3>{{ branch.location }}</h3> <!-- Below name -->
+                        <p>{{ branch.created_at }}</p>
+                        
                         {% if branch.image %}
                             <img src="{{ branch.image.url }}" alt="{{ branch.name }}">
                         {% else %}
                             <p>No image available</p>
                         {% endif %}
-
+                
                         <div class="dropdown" onclick="toggleDropdown(event)">
                             <span>...</span>
                             <div class="dropdown-content">
@@ -265,6 +267,7 @@
                         </div>
                     </div>
                 </div>
+                
                 {% endfor %}
             </div>
         </div>

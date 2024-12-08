@@ -78,15 +78,6 @@
         .button-container button:hover {
             background: #6c0a0a;
         }
-
-        .cancel-btn {
-            background: #ccc;
-        }
-
-        .cancel-btn:hover {
-            background: #999;
-        }
-
         .profile-header {
             display: flex;
             justify-content: center;
@@ -149,15 +140,15 @@
             {% csrf_token %}
             <div class="form-group">
                 <label for="first_name">First Name</label>
-                <input type="text" name="first_name" id="first_name" value="{{ user.first_name }}" required>
+                <input type="text" name="first_name" id="first_name" value="{{ user.first_name }}">
             </div>
             <div class="form-group">
                 <label for="last_name">Last Name</label>
-                <input type="text" name="last_name" id="last_name" value="{{ user.last_name }}" required>
+                <input type="text" name="last_name" id="last_name" value="{{ user.last_name }}">
             </div>
             <div class="form-group">
                 <label for="email">Email</label>
-                <input type="email" name="email" id="email" value="{{ user.email }}" required>
+                <input type="email" name="email" id="email" value="{{ user.email }}">
             </div>
             <div class="button-container">
                 <button type="submit">Save</button>

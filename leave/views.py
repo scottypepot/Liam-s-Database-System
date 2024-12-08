@@ -59,6 +59,5 @@ def approve_decline_leave(request):
         elif action == 'decline':
             leave_request.status = 'Declined'
             leave_request.save()
-        
         return redirect('leave_list')
     return redirect('leave_list')

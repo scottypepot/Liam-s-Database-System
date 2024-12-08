@@ -67,89 +67,70 @@
             justify-content: space-between;
             align-items: center;
             margin-bottom: 30px;
+            padding: 20px;
         }
         .header h1 {
-            font-size: 40px;
-            font-weight: 400;
+            font-size: 36px;
+            font-weight: 700;
+            color: black;
         }
         .form-container {
             max-width: 600px;
             margin: 0 auto;
-            padding: 80px;
+            padding: 40px;
             background-color: #FCE3DF;
             border-radius: 15px;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-            position: relative;
-            display: flex;
-            flex-direction: column;
-            align-items: left; 
-            gap: 20px;
         }
         .form-container h2 {
+            margin-top: 10px;
             font-size: 26px;
-            margin-top: -55px;
+            margin-bottom: 40px;
             text-align: left;
+            color: #580801;
         }
         .form-container label {
             font-weight: bold;
-        }
-        .form-container input,
-        .form-container label {
-            display: block;
-            width: 100%;
-            margin-bottom: 15px;
-            font-size: 18px;
+            color: #333;
         }
         .form-container input[type="text"],
         .form-container input[type="file"] {
-            background-color: #FCE3DF;
-            width: 572px;
+            width: 100%;
             padding: 12px;
+            margin-top: 8px;
+            margin-bottom: 20px;
             border-radius: 5px;
-            border: 1px solid #000;
+            border: 1px solid #060606;
             font-size: 16px;
+            box-sizing: border-box;
+        }
+        .button-group {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
         .form-container button {
             padding: 12px 25px;
-            background: #FFBCB4;
-            color: #BB2517;
             border: none;
-            border-radius: 10px;
-            font-size: 18px;
+            border-radius: 5px;
+            font-size: 16px;
             cursor: pointer;
             transition: background 0.3s ease;
-            position: absolute;
-            right: 80px;
             margin-top: 15px;
         }
-        .form-container button:hover {
-            background: #FCE3DF;
+        .form-container button[type="submit"] {
+            background: #FFBCB4;
+            color: #BB2517;
         }
-        .logout-btn-sidebar {
-            color: white;
-            font-size: 16px;
-            font-weight: 400;
-            padding: 50px 23px;
-            text-align: center;
-            display: flex;
-            align-items: center;
-            cursor: pointer;
-            text-decoration: none;
-            margin-top: auto;
+        .form-container button[type="submit"]:hover {
+            background: #FF9C87;
         }
-        .logout-btn-sidebar:hover {
-            background: #6c0a0a;
+        .form-container button.cancel-btn {
+            background: #FFBCB4;
+            color: #BB2517;
         }
-        .header {
-            display: flex;
-            flex-direction: column;
-            align-items: flex-start;
-            gap: 10px;
-        }
-        .back-btn {
-            display: inline-block;
-            text-decoration: none;
-            color: inherit;
+        .form-container button.cancel-btn:hover {
+            background: #FF9C87;
         }
     </style>
 </head>
@@ -186,16 +167,14 @@
                     </a>
                 {% endif %}
             </nav>
-            <a href="{% url 'logout' %}" class="logout-btn-sidebar">
-                <img src="{% static 'images/logout.png' %}" alt="Logout Icon"> Logout
+            <a href="{% url 'logout' %}" class="menu-item">
+                <img src="{% static 'images/logout.png' %}" alt="Logout Icon"> 
+                Logout
             </a>
         </aside>
 
         <div class="main">
             <div class="header">
-                <a href="{% url 'branch_list' %}" class="back-btn">
-                    <img src="{% static 'images/back.png' %}" alt="Back" style="width: 40px; height: 40px; margin-right: 10px;">
-                </a>
                 <h1>Add Branch</h1>
             </div>
 
@@ -203,15 +182,16 @@
                 <h2>Enter Branch Details</h2>
                 <form method="post" action="{% url 'add_branch' %}" enctype="multipart/form-data">
                     {% csrf_token %}
-                    <div>
-                        <label for="branch_location">Location</label>
-                        <input type="text" id="branch_location" name="location" placeholder="Enter Branch Location" required>
+                    <label for="branch_location">Location</label>
+                    <input type="text" id="branch_location" name="location" placeholder="Enter Branch Location" required>
+
+                    <label for="branch_image">Branch Image</label>
+                    <input type="file" id="branch_image" name="image" accept="image/*" required>
+
+                    <div class="button-group">
+                        <button type="button" class="cancel-btn" onclick="window.history.back()">Cancel</button>
+                        <button type="submit">Add Branch</button>
                     </div>
-                    <div>
-                        <label for="branch_image">Branch Image</label>
-                        <input type="file" id="branch_image" name="image" accept="image/*" required>
-                    </div>
-                    <button type="submit">Add Branch</button>
                 </form>
             </div>
         </div>

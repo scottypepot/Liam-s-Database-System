@@ -106,13 +106,13 @@
             background: #FFBCB4;
             color: #BB2517;
             border: none;
-            border-radius: 10px;
+            border-radius: 5px;
             font-size: 18px;
             cursor: pointer;
             transition: background 0.3s ease;
         }
         .form-container button:hover {
-            background: #FCE3DF;
+            background: #FF9C87;
         }
         .form-container .leave-buttons {
             display: flex;
@@ -151,9 +151,42 @@
         }
         .submit-btn-container {
             display: flex;
-            justify-content: flex-end; 
+            justify-content: space-between; /* This ensures the buttons are on opposite sides */
             margin-top: 20px;
         }
+
+        .cancel-btn {
+            padding: 12px 25px;
+            background: #FFBCB4;
+            color: #BB2517;
+            border: none;
+            border-radius: 5px;
+            font-size: 18px;
+            text-decoration: none; /* Removes underline */
+            display: inline-block;
+            text-align: center;
+            transition: background 0.3s ease;
+        }
+
+        .cancel-btn:hover {
+            background: #FF9C87;
+        }
+
+        .submit-btn {
+            padding: 12px 25px;
+            background: #FFBCB4;
+            color: #BB2517;
+            border: none;
+            border-radius: 5px;
+            font-size: 18px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .submit-btn:hover {
+            background: #FF9C87;
+        }
+
         .logout-btn-sidebar {
             color: white;
             font-size: 16px;
@@ -171,15 +204,17 @@
         }
         .header {
             display: flex;
-            flex-direction: column; 
-            align-items: flex-start; 
-            gap: 10px; 
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding: 20px;
         }
-        .back-btn {
-            display: inline-block;
-            text-decoration: none;
-            color: inherit;
+        .header h1 {
+            font-size: 36px;
+            font-weight: 700;
+            color: black;
         }
+
     </style>
 
     {% load static %}
@@ -237,9 +272,6 @@
 
         <main class="main">
             <header class="header">
-                <a href="{% url 'leave_list' %}" class="back-btn">
-                    <img src="{% static 'images/back.png' %}" alt="Back" style="width: 40px; height: 40px; margin-right: 10px;">
-                </a>
                 <h1>Apply Leave Form</h1>
             </header>
             <div class="form-container">
@@ -272,8 +304,9 @@
                         <textarea id="reason" name="reason" rows="4" placeholder="Enter your reason here..." required></textarea>
                     </div>
                     <div class="submit-btn-container">
+                        <a href="{% url 'leave_list' %}" class="cancel-btn">Cancel</a>
                         <button type="submit" class="submit-btn">Submit Leave</button>
-                    </div>
+                    </div>                    
                 </form>                
             </div>            
         </main>
