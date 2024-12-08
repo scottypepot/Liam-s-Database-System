@@ -5,7 +5,6 @@ class UserProfile(AbstractUser):  # Extending Django's built-in User model
     ROLE_CHOICES = [
         ('EMPLOYEE', 'Employee'),
         ('ADMIN', 'Admin'),
-        ('SUPERADMIN', 'Superadmin'),
     ]
     role = models.CharField(max_length=20, choices=ROLE_CHOICES, default='EMPLOYEE')  # Add role field
 

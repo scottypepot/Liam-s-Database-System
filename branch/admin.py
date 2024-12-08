@@ -10,12 +10,8 @@ class BranchAdmin(admin.ModelAdmin):
         if request.user.role == 'EMPLOYEE':
             perms['change'] = False
             perms['delete'] = False
-            perms['add'] = False
+            perms['add'] = False 
         elif request.user.role == 'ADMIN':
-            perms['change'] = True
-            perms['add'] = True
-            perms['delete'] = False  
-        elif request.user.role == 'SUPERADMIN':
             perms['change'] = True
             perms['add'] = True
             perms['delete'] = True 

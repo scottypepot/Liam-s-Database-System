@@ -31,17 +31,9 @@ class CustomUserAdmin(UserAdmin):
             perms['delete'] = False
             perms['add'] = False
 
-        # Permissions for Admin (Assistant Manager)
-        elif request.user.role == 'ADMIN':
-            # Admin can add users, change details but cannot delete or deactivate users
-            perms['add'] = True
-            perms['change'] = True
-            perms['delete'] = False
-            perms['deactivate'] = False
-
         # Permissions for Superadmin (Senior Manager)
-        elif request.user.role == 'SUPERADMIN':
-            # Superadmins can add, change, delete and deactivate users
+        elif request.user.role == 'ADMIN':
+            # ADMIN can add, change, delete and deactivate users
             perms['add'] = True
             perms['change'] = True
             perms['delete'] = True
