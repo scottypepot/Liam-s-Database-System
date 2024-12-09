@@ -688,7 +688,7 @@ input[type="text"] {
             </div>
 
             <div class="feedback-actions">
-                <span class="timestamp">{{ feedback.timestamp|date:"H:i A" }}</span>
+                <span class="timestamp">{{ feedback.timestamp|date:"F j, Y" }}</span>
 
                 {% if user.is_staff or feedback.user == request.user %}
                             <div class="dropdown">
@@ -812,7 +812,7 @@ input[type="text"] {
             </div>
 
             <div class="feedback-actions">
-                <span class="timestamp">{{ feedback.timestamp|date:"H:i A" }}</span>
+                <span class="timestamp">{{ feedback.timestamp|date:"F j, Y" }}</span>
 
                 {% if user.is_staff or feedback.user == request.user %}
                             <div class="dropdown">
